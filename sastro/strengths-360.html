@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Character Strengths 360</title>
+    <title>Character Strengths 360 - VIA Institute</title>
     <style>
         * {
             margin: 0;
@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
@@ -28,11 +28,22 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .via-logo {
+            font-size: 1.2rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
         h1 {
             color: #667eea;
             margin-bottom: 0.5rem;
             font-size: 2.5rem;
-            text-align: center;
         }
 
         .subtitle {
@@ -81,11 +92,34 @@
             font-weight: 600;
         }
 
+        .virtue-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .virtue-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .virtue-icon {
+            font-size: 1.8rem;
+            margin-right: 0.8rem;
+        }
+
+        .virtue-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
         .strengths-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1rem;
-            margin-bottom: 2rem;
         }
 
         .strength-card {
@@ -134,10 +168,25 @@
             display: flex;
         }
 
+        .strength-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .strength-icon {
+            font-size: 2rem;
+            margin-right: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .strength-card.selected .strength-icon {
+            filter: brightness(0) invert(1);
+        }
+
         .strength-name {
             font-weight: 600;
             font-size: 1.1rem;
-            margin-bottom: 0.5rem;
         }
 
         .strength-description {
@@ -167,6 +216,12 @@
             color: #667eea;
             margin-bottom: 0.8rem;
             font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .example-item h3 span {
+            margin-left: 0.5rem;
         }
 
         .example-item textarea {
@@ -293,6 +348,13 @@
             border-bottom: 3px solid #667eea;
         }
 
+        .results-via-logo {
+            font-size: 1rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
         .results-header h1 {
             color: #667eea;
             font-size: 2rem;
@@ -330,12 +392,26 @@
             font-weight: bold;
             font-size: 1.2rem;
             margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .results-icon {
+            font-size: 1.8rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
         }
 
         .results-strength-name {
             font-size: 1.3rem;
             font-weight: 600;
             color: #333;
+        }
+
+        .results-virtue {
+            font-size: 0.85rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 0.3rem;
         }
 
         .results-description {
@@ -372,7 +448,10 @@
 </head>
 <body>
     <div class="container">
-        <h1>Character Strengths 360</h1>
+        <div class="header">
+            <div class="via-logo">VIA CHARACTER.ORG</div>
+            <h1>Character Strengths 360</h1>
+        </div>
         <p class="subtitle">Identify the top 5 character strengths you see in someone</p>
 
         <div class="person-name">
@@ -385,7 +464,7 @@
 
         <div class="counter" id="counter">Selected: 0 / 5</div>
 
-        <div class="strengths-grid" id="strengthsGrid"></div>
+        <div id="strengthsContainer"></div>
 
         <div class="examples-section" id="examplesSection">
             <h2 style="color: #667eea; margin-bottom: 1.5rem;">Provide Examples</h2>
@@ -406,61 +485,134 @@
             </div>
         </div>
 
-        <div id="resultsPreview">
-            <div class="results-card" id="resultsCard"></div>
-        </div>
-
         <div class="button-group" id="nextButton" style="display: none;">
             <button class="btn-primary" onclick="showExamples()">Next: Add Examples</button>
         </div>
     </div>
 
+    <div id="resultsPreview">
+        <div class="results-card" id="resultsCard"></div>
+    </div>
+
     <script>
-        const strengths = [
-            { name: "Creativity", description: "Ingenuity; sees & does things in new and unique ways; has original & adaptive ideas" },
-            { name: "Curiosity", description: "Novelty seeker; takes an interest; open to different experiences; asks questions" },
-            { name: "Judgment", description: "Critical thinker; analytical; logical; thinks things through" },
-            { name: "Love of Learning", description: "Masters new skills & topics; passionate about knowledge & learning" },
-            { name: "Perspective", description: "Wise; provides wise counsel; sees the big picture; integrates others' views" },
-            { name: "Bravery", description: "Valorous; does not shrink from fear; speaks up for what's right" },
-            { name: "Perseverance", description: "Persistent; industrious; overcomes obstacles; finishes what is started" },
-            { name: "Honesty", description: "Integrity; truthful; authentic" },
-            { name: "Zest", description: "Enthusiastic; energetic; vital; feels alive and activated" },
-            { name: "Love", description: "Gives and accepts love; genuine; values close relations with others" },
-            { name: "Kindness", description: "Generous; nurturing; caring; compassionate; altruistic; nice & friendly" },
-            { name: "Social Intelligence", description: "Aware of the motives and feelings of self & others; knows what makes other people tick" },
-            { name: "Teamwork", description: "A team player; community focused, socially responsible; loyal" },
-            { name: "Fairness", description: "Acts upon principles of justice; does not allow feelings to bias decisions about others" },
-            { name: "Leadership", description: "Organizes group activities; encourages and leads groups to get things done" },
-            { name: "Forgiveness", description: "Merciful; accepts others' shortcomings; gives people a second chance" },
-            { name: "Humility", description: "Modest; lets accomplishments speak for themselves; focuses on others" },
-            { name: "Prudence", description: "Careful; wisely cautious; thinks before speaking or acting; does not take undue risks" },
-            { name: "Self-Regulation", description: "Self-controlled; disciplined; manages impulses & emotions" },
-            { name: "Appreciation of Beauty & Excellence", description: "Experiences awe; quickly moved to wonder; marvels at beauty & greatness" },
-            { name: "Gratitude", description: "Thankful for the good; expresses thanks; feels blessed" },
-            { name: "Hope", description: "Optimistic; future-minded; has a positive outlook" },
-            { name: "Humor", description: "Playful; enjoys joking and bringing smiles to others; lighthearted" },
-            { name: "Spirituality", description: "Purpose- & meaning-driven; has coherent beliefs about the universe; practices spiritual practices" }
-        ];
+        const virtues = {
+            wisdom: {
+                name: "Virtue of WISDOM",
+                icon: "🧠",
+                strengths: [
+                    { name: "Creativity", icon: "💡", description: "Original & Adaptive, Clever, A problem solver, Sees and does things in different ways" },
+                    { name: "Curiosity", icon: "🔍", description: "Interested, Explores new things, Open to new ideas" },
+                    { name: "Judgment", icon: "⚖️", description: "A critical thinker, Thinks things through, Open minded" },
+                    { name: "Love of Learning", icon: "📚", description: "Masters new skills & topics, Systematically adds to knowledge" },
+                    { name: "Perspective", icon: "🔭", description: "Wise, Provides wise counsel, Takes the big picture view" }
+                ]
+            },
+            courage: {
+                name: "Virtue of COURAGE",
+                icon: "💪",
+                strengths: [
+                    { name: "Bravery", icon: "🦁", description: "Shows valor, Doesn't shrink from fear, Speaks up for what's right" },
+                    { name: "Perseverance", icon: "🎯", description: "Persistent, Industrious, Finishes what one starts" },
+                    { name: "Honesty", icon: "✋", description: "Authentic, Trustworthy, Sincere" },
+                    { name: "Zest", icon: "⚡", description: "Enthusiastic, Energetic, Doesn't do things half-heartedly" }
+                ]
+            },
+            humanity: {
+                name: "Virtue of HUMANITY",
+                icon: "💝",
+                strengths: [
+                    { name: "Love", icon: "❤️", description: "Warm and genuine, Values close relationships" },
+                    { name: "Kindness", icon: "🤗", description: "Generous, Nurturing, Caring, Compassionate, Altruistic" },
+                    { name: "Social Intelligence", icon: "👥", description: "Aware of the motives and feelings of others, Knows what makes others tick" }
+                ]
+            },
+            justice: {
+                name: "Virtue of JUSTICE",
+                icon: "⚖️",
+                strengths: [
+                    { name: "Teamwork", icon: "🤝", description: "Team player, Socially responsible, Loyal" },
+                    { name: "Fairness", icon: "⚖️", description: "Just, Doesn't let feelings bias decisions about others" },
+                    { name: "Leadership", icon: "👑", description: "Organizes group activities, Encourages a group to get things done" }
+                ]
+            },
+            temperance: {
+                name: "Virtue of TEMPERANCE",
+                icon: "🧘",
+                strengths: [
+                    { name: "Forgiveness", icon: "🕊️", description: "Merciful, Accepts others' shortcomings, Gives people a second chance" },
+                    { name: "Humility", icon: "🙏", description: "Modest, Lets one's accomplishments speak for themselves" },
+                    { name: "Prudence", icon: "🛡️", description: "Careful, Cautious, Doesn't take undue risk" },
+                    { name: "Self-Regulation", icon: "🎚️", description: "Self-controlled, Manages impulses and emotions" }
+                ]
+            },
+            transcendence: {
+                name: "Virtue of TRANSCENDENCE",
+                icon: "✨",
+                strengths: [
+                    { name: "Appreciation of Beauty & Excellence", icon: "🌟", description: "Feels awe & wonder in beauty, Inspired by goodness of others" },
+                    { name: "Gratitude", icon: "🙏", description: "Thankful for the good, Expresses thanks, Feels blessed" },
+                    { name: "Hope", icon: "🌅", description: "Optimistic, Future-minded" },
+                    { name: "Humor", icon: "😄", description: "Playful, Brings smiles to others, Lighthearted" },
+                    { name: "Spirituality", icon: "🕉️", description: "Searches for meaning, Feels a sense of purpose, Senses a relationship with the sacred" }
+                ]
+            }
+        };
 
         let selectedStrengths = [];
-        const examples = {};
+        let allStrengths = [];
+
+        function initializeStrengths() {
+            let index = 0;
+            for (const virtueKey in virtues) {
+                const virtue = virtues[virtueKey];
+                virtue.strengths.forEach(strength => {
+                    allStrengths.push({
+                        ...strength,
+                        virtue: virtue.name,
+                        virtueIcon: virtue.icon,
+                        index: index++
+                    });
+                });
+            }
+        }
 
         function renderStrengths() {
-            const grid = document.getElementById('strengthsGrid');
-            grid.innerHTML = '';
+            const container = document.getElementById('strengthsContainer');
+            container.innerHTML = '';
 
-            strengths.forEach((strength, index) => {
-                const card = document.createElement('div');
-                card.className = 'strength-card';
-                card.innerHTML = `
-                    <div class="strength-rank"></div>
-                    <div class="strength-name">${strength.name}</div>
-                    <div class="strength-description">${strength.description}</div>
+            for (const virtueKey in virtues) {
+                const virtue = virtues[virtueKey];
+                
+                const section = document.createElement('div');
+                section.className = 'virtue-section';
+                
+                section.innerHTML = `
+                    <div class="virtue-header">
+                        <div class="virtue-icon">${virtue.icon}</div>
+                        <div class="virtue-name">${virtue.name}</div>
+                    </div>
+                    <div class="strengths-grid" id="grid-${virtueKey}"></div>
                 `;
-                card.onclick = () => toggleStrength(index, card);
-                grid.appendChild(card);
-            });
+                
+                container.appendChild(section);
+                
+                const grid = document.getElementById(`grid-${virtueKey}`);
+                virtue.strengths.forEach(strength => {
+                    const strengthObj = allStrengths.find(s => s.name === strength.name);
+                    const card = document.createElement('div');
+                    card.className = 'strength-card';
+                    card.innerHTML = `
+                        <div class="strength-rank"></div>
+                        <div class="strength-header">
+                            <div class="strength-icon">${strength.icon}</div>
+                            <div class="strength-name">${strength.name}</div>
+                        </div>
+                        <div class="strength-description">${strength.description}</div>
+                    `;
+                    card.onclick = () => toggleStrength(strengthObj.index, card);
+                    grid.appendChild(card);
+                });
+            }
         }
 
         function toggleStrength(index, card) {
@@ -485,8 +637,9 @@
             document.getElementById('counter').textContent = `Selected: ${selectedStrengths.length} / 5`;
 
             const cards = document.querySelectorAll('.strength-card');
-            cards.forEach((card, index) => {
-                const rank = selectedStrengths.indexOf(index);
+            cards.forEach((card, idx) => {
+                const strength = allStrengths[idx];
+                const rank = selectedStrengths.indexOf(idx);
                 if (rank > -1) {
                     card.classList.add('selected');
                     card.querySelector('.strength-rank').textContent = rank + 1;
@@ -504,11 +657,14 @@
             container.innerHTML = '';
 
             selectedStrengths.forEach((strengthIndex, rank) => {
-                const strength = strengths[strengthIndex];
+                const strength = allStrengths[strengthIndex];
                 const div = document.createElement('div');
                 div.className = 'example-item';
                 div.innerHTML = `
-                    <h3>#${rank + 1} - ${strength.name}</h3>
+                    <h3>
+                        <span style="font-size: 1.5rem;">${strength.icon}</span>
+                        <span>#${rank + 1} - ${strength.name}</span>
+                    </h3>
                     <textarea placeholder="Describe a specific example of how this person displays ${strength.name.toLowerCase()}..." 
                               id="example-${strengthIndex}"></textarea>
                 `;
@@ -537,6 +693,7 @@
             const resultsCard = document.getElementById('resultsCard');
             let html = `
                 <div class="results-header">
+                    <div class="results-via-logo">VIA CHARACTER.ORG</div>
                     <h1>Character Strengths 360</h1>
                     <div class="results-meta">
                         <div style="font-size: 1.2rem; font-weight: 600; color: #333; margin: 0.5rem 0;">${personName}</div>
@@ -546,14 +703,18 @@
             `;
 
             selectedStrengths.forEach((strengthIndex, rank) => {
-                const strength = strengths[strengthIndex];
+                const strength = allStrengths[strengthIndex];
                 const example = document.getElementById(`example-${strengthIndex}`).value.trim();
                 
                 html += `
                     <div class="results-strength">
                         <div class="results-strength-header">
                             <div class="results-rank">${rank + 1}</div>
-                            <div class="results-strength-name">${strength.name}</div>
+                            <div class="results-icon">${strength.icon}</div>
+                            <div>
+                                <div class="results-strength-name">${strength.name}</div>
+                                <div class="results-virtue">${strength.virtue}</div>
+                            </div>
                         </div>
                         <div class="results-description">${strength.description}</div>
                         ${example ? `<div class="results-example"><strong>Example:</strong> ${example}</div>` : ''}
@@ -662,6 +823,7 @@
             }
         }
 
+        initializeStrengths();
         renderStrengths();
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>

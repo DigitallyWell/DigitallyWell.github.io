@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Strengths 360</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .person-name {
+            margin-bottom: 2rem;
+        }
+
+        .person-name input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+        }
+
+        .person-name input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .instructions {
+            background: #f8f9ff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .instructions p {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .counter {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .strengths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .strength-card {
+            background: #fafafa;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .strength-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .strength-card.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+            color: white;
+        }
+
+        .strength-card.selected .strength-description {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .strength-rank {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ffd700;
+            color: #333;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .strength-card.selected .strength-rank {
+            display: flex;
+        }
+
+        .strength-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .strength-description {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .examples-section {
+            margin-top: 3rem;
+            display: none;
+        }
+
+        .examples-section.active {
+            display: block;
+        }
+
+        .example-item {
+            margin-bottom: 1.5rem;
+            background: #f8f9ff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .example-item h3 {
+            color: #667eea;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .example-item textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 80px;
+            transition: border-color 0.3s;
+        }
+
+        .example-item textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .download-options {
+            display: none;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: #f8f9ff;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .download-options.active {
+            display: block;
+        }
+
+        .download-options h3 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-download {
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-download:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        #resultsPreview {
+            display: none;
+            position: fixed;
+            left: -9999px;
+            top: -9999px;
+        }
+
+        .results-card {
+            background: white;
+            padding: 3rem;
+            width: 800px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .results-header h1 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .results-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .results-strength {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .results-strength-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .results-rank {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+        }
+
+        .results-strength-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .results-description {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+            font-style: italic;
+        }
+
+        .results-example {
+            color: #444;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .results-example strong {
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .strengths-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Character Strengths 360</h1>
+        <p class="subtitle">Identify the top 5 character strengths you see in someone</p>
+
+        <div class="person-name">
+            <input type="text" id="personName" placeholder="Enter the person's name..." />
+        </div>
+
+        <div class="instructions">
+            <p><strong>Instructions:</strong> Select the 5 character strengths that most strongly describe this person. Click on each strength card to select it. The order you select them in will determine their ranking (1-5).</p>
+        </div>
+
+        <div class="counter" id="counter">Selected: 0 / 5</div>
+
+        <div class="strengths-grid" id="strengthsGrid"></div>
+
+        <div class="examples-section" id="examplesSection">
+            <h2 style="color: #667eea; margin-bottom: 1.5rem;">Provide Examples</h2>
+            <p style="margin-bottom: 1.5rem; color: #666;">For each strength you selected, please provide a brief example of how you've seen this person display that strength:</p>
+            <div id="examplesContainer"></div>
+            
+            <div class="button-group">
+                <button class="btn-secondary" onclick="resetForm()">Reset</button>
+                <button class="btn-primary" onclick="submitForm()">Complete Assessment</button>
+            </div>
+
+            <div class="download-options" id="downloadOptions">
+                <h3>✨ Download Your Results</h3>
+                <div class="download-buttons">
+                    <button class="btn-download" onclick="downloadAsImage()">📷 Download as Image</button>
+                    <button class="btn-download" onclick="downloadAsPDF()">📄 Download as PDF</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsPreview">
+            <div class="results-card" id="resultsCard"></div>
+        </div>
+
+        <div class="button-group" id="nextButton" style="display: none;">
+            <button class="btn-primary" onclick="showExamples()">Next: Add Examples</button>
+        </div>
+    </div>
+
+    <script>
+        const strengths = [
+            { name: "Creativity", description: "Ingenuity; sees & does things in new and unique ways; has original & adaptive ideas" },
+            { name: "Curiosity", description: "Novelty seeker; takes an interest; open to different experiences; asks questions" },
+            { name: "Judgment", description: "Critical thinker; analytical; logical; thinks things through" },
+            { name: "Love of Learning", description: "Masters new skills & topics; passionate about knowledge & learning" },
+            { name: "Perspective", description: "Wise; provides wise counsel; sees the big picture; integrates others' views" },
+            { name: "Bravery", description: "Valorous; does not shrink from fear; speaks up for what's right" },
+            { name: "Perseverance", description: "Persistent; industrious; overcomes obstacles; finishes what is started" },
+            { name: "Honesty", description: "Integrity; truthful; authentic" },
+            { name: "Zest", description: "Enthusiastic; energetic; vital; feels alive and activated" },
+            { name: "Love", description: "Gives and accepts love; genuine; values close relations with others" },
+            { name: "Kindness", description: "Generous; nurturing; caring; compassionate; altruistic; nice & friendly" },
+            { name: "Social Intelligence", description: "Aware of the motives and feelings of self & others; knows what makes other people tick" },
+            { name: "Teamwork", description: "A team player; community focused, socially responsible; loyal" },
+            { name: "Fairness", description: "Acts upon principles of justice; does not allow feelings to bias decisions about others" },
+            { name: "Leadership", description: "Organizes group activities; encourages and leads groups to get things done" },
+            { name: "Forgiveness", description: "Merciful; accepts others' shortcomings; gives people a second chance" },
+            { name: "Humility", description: "Modest; lets accomplishments speak for themselves; focuses on others" },
+            { name: "Prudence", description: "Careful; wisely cautious; thinks before speaking or acting; does not take undue risks" },
+            { name: "Self-Regulation", description: "Self-controlled; disciplined; manages impulses & emotions" },
+            { name: "Appreciation of Beauty & Excellence", description: "Experiences awe; quickly moved to wonder; marvels at beauty & greatness" },
+            { name: "Gratitude", description: "Thankful for the good; expresses thanks; feels blessed" },
+            { name: "Hope", description: "Optimistic; future-minded; has a positive outlook" },
+            { name: "Humor", description: "Playful; enjoys joking and bringing smiles to others; lighthearted" },
+            { name: "Spirituality", description: "Purpose- & meaning-driven; has coherent beliefs about the universe; practices spiritual practices" }
+        ];
+
+        let selectedStrengths = [];
+        const examples = {};
+
+        function renderStrengths() {
+            const grid = document.getElementById('strengthsGrid');
+            grid.innerHTML = '';
+
+            strengths.forEach((strength, index) => {
+                const card = document.createElement('div');
+                card.className = 'strength-card';
+                card.innerHTML = `
+                    <div class="strength-rank"></div>
+                    <div class="strength-name">${strength.name}</div>
+                    <div class="strength-description">${strength.description}</div>
+                `;
+                card.onclick = () => toggleStrength(index, card);
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleStrength(index, card) {
+            const strengthIndex = selectedStrengths.indexOf(index);
+
+            if (strengthIndex > -1) {
+                selectedStrengths.splice(strengthIndex, 1);
+                card.classList.remove('selected');
+            } else {
+                if (selectedStrengths.length < 5) {
+                    selectedStrengths.push(index);
+                    card.classList.add('selected');
+                } else {
+                    return;
+                }
+            }
+
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('counter').textContent = `Selected: ${selectedStrengths.length} / 5`;
+
+            const cards = document.querySelectorAll('.strength-card');
+            cards.forEach((card, index) => {
+                const rank = selectedStrengths.indexOf(index);
+                if (rank > -1) {
+                    card.classList.add('selected');
+                    card.querySelector('.strength-rank').textContent = rank + 1;
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+
+            const nextButton = document.getElementById('nextButton');
+            nextButton.style.display = selectedStrengths.length === 5 ? 'flex' : 'none';
+        }
+
+        function showExamples() {
+            const container = document.getElementById('examplesContainer');
+            container.innerHTML = '';
+
+            selectedStrengths.forEach((strengthIndex, rank) => {
+                const strength = strengths[strengthIndex];
+                const div = document.createElement('div');
+                div.className = 'example-item';
+                div.innerHTML = `
+                    <h3>#${rank + 1} - ${strength.name}</h3>
+                    <textarea placeholder="Describe a specific example of how this person displays ${strength.name.toLowerCase()}..." 
+                              id="example-${strengthIndex}"></textarea>
+                `;
+                container.appendChild(div);
+            });
+
+            document.getElementById('examplesSection').classList.add('active');
+            document.getElementById('nextButton').style.display = 'none';
+            document.getElementById('examplesSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function submitForm() {
+            const personName = document.getElementById('personName').value.trim();
+            
+            if (!personName) {
+                alert('Please enter the person\'s name.');
+                return;
+            }
+
+            generateResultsPreview(personName);
+            document.getElementById('downloadOptions').classList.add('active');
+            document.getElementById('downloadOptions').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateResultsPreview(personName) {
+            const resultsCard = document.getElementById('resultsCard');
+            let html = `
+                <div class="results-header">
+                    <h1>Character Strengths 360</h1>
+                    <div class="results-meta">
+                        <div style="font-size: 1.2rem; font-weight: 600; color: #333; margin: 0.5rem 0;">${personName}</div>
+                        <div>${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                    </div>
+                </div>
+            `;
+
+            selectedStrengths.forEach((strengthIndex, rank) => {
+                const strength = strengths[strengthIndex];
+                const example = document.getElementById(`example-${strengthIndex}`).value.trim();
+                
+                html += `
+                    <div class="results-strength">
+                        <div class="results-strength-header">
+                            <div class="results-rank">${rank + 1}</div>
+                            <div class="results-strength-name">${strength.name}</div>
+                        </div>
+                        <div class="results-description">${strength.description}</div>
+                        ${example ? `<div class="results-example"><strong>Example:</strong> ${example}</div>` : ''}
+                    </div>
+                `;
+            });
+
+            resultsCard.innerHTML = html;
+        }
+
+        async function downloadAsImage() {
+            const resultsCard = document.getElementById('resultsCard');
+            const preview = document.getElementById('resultsPreview');
+            
+            preview.style.left = '0';
+            preview.style.top = '0';
+            preview.style.display = 'block';
+
+            try {
+                const canvas = await html2canvas(resultsCard, {
+                    scale: 2,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    width: 800,
+                    windowWidth: 800
+                });
+
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    const personName = document.getElementById('personName').value.trim();
+                    a.href = url;
+                    a.download = `Character_Strengths_360_${personName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    preview.style.left = '-9999px';
+                    preview.style.top = '-9999px';
+                    preview.style.display = 'none';
+                });
+            } catch (error) {
+                console.error('Error generating image:', error);
+                alert('There was an error generating the image. Please try again.');
+                preview.style.left = '-9999px';
+                preview.style.top = '-9999px';
+                preview.style.display = 'none';
+            }
+        }
+
+        async function downloadAsPDF() {
+            const resultsCard = document.getElementById('resultsCard');
+            const preview = document.getElementById('resultsPreview');
+            
+            preview.style.left = '0';
+            preview.style.top = '0';
+            preview.style.display = 'block';
+
+            try {
+                const canvas = await html2canvas(resultsCard, {
+                    scale: 2,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    width: 800,
+                    windowWidth: 800
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                const imgWidth = 210;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                
+                const personName = document.getElementById('personName').value.trim();
+                pdf.save(`Character_Strengths_360_${personName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
+                
+                preview.style.left = '-9999px';
+                preview.style.top = '-9999px';
+                preview.style.display = 'none';
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('There was an error generating the PDF. Please try again.');
+                preview.style.left = '-9999px';
+                preview.style.top = '-9999px';
+                preview.style.display = 'none';
+            }
+        }
+
+        function resetForm() {
+            if (confirm('Are you sure you want to reset the form? This will clear all your selections.')) {
+                selectedStrengths = [];
+                document.getElementById('personName').value = '';
+                document.getElementById('examplesSection').classList.remove('active');
+                document.getElementById('downloadOptions').classList.remove('active');
+                updateUI();
+                renderStrengths();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        renderStrengths();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>

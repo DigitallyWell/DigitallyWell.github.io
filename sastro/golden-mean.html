@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Strengths - Golden Mean</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            color: #312e81;
+            margin-bottom: 32px;
+        }
+
+        .mode-toggle {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background-color: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .mode-btn:not(.active) {
+            background-color: white;
+            color: #4f46e5;
+        }
+
+        .mode-btn:not(.active):hover {
+            background-color: #eef2ff;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+        }
+
+        /* Hexagonal Grid Styles */
+        .hex-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .hex-item {
+            width: 140px;
+            height: 140px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .hex-item:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .hex-shape {
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: background 0.3s;
+        }
+
+        .hex-item:hover .hex-shape {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .hex-item.selected .hex-shape {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .hex-name {
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-align: center;
+            word-wrap: break-word;
+            line-height: 1.2;
+        }
+
+        /* Strength Detail View */
+        .strength-detail {
+            margin-top: 32px;
+        }
+
+        .strength-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #312e81;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .info-box {
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .info-box.green {
+            background-color: #f0fdf4;
+            border-color: #22c55e;
+        }
+
+        .info-box.red {
+            background-color: #fef2f2;
+            border-color: #ef4444;
+        }
+
+        .info-box.blue {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+        }
+
+        .info-box .label {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .info-box.green .label {
+            color: #15803d;
+        }
+
+        .info-box.red .label {
+            color: #dc2626;
+        }
+
+        .info-box.blue .label {
+            color: #2563eb;
+        }
+
+        .info-box .content {
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.125rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
+
+        .btn:disabled {
+            background-color: #d1d5db;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .reveal-section {
+            text-align: center;
+            margin: 24px 0;
+        }
+
+        .answer-section {
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Download Mode Styles */
+        .strength-list {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 32px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        .strength-item {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .strength-item:last-child {
+            border-bottom: none;
+        }
+
+        .strength-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .strength-header:hover {
+            background-color: #f9fafb;
+        }
+
+        .strength-header.selected {
+            background-color: #eef2ff;
+        }
+
+        .strength-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .strength-header input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .strength-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .expand-btn:hover {
+            color: #374151;
+        }
+
+        .strength-details {
+            padding: 16px;
+            background-color: white;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.875rem;
+        }
+
+        .strength-details p {
+            margin-bottom: 8px;
+        }
+
+        .strength-details p:last-child {
+            margin-bottom: 0;
+        }
+
+        .download-info {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        .download-info .count {
+            font-weight: 600;
+            color: #4f46e5;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .footer {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-top: 32px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .instruction {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 24px;
+            font-size: 1.1rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            background-color: #e5e7eb;
+            color: #374151;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .back-btn:hover {
+            background-color: #d1d5db;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .hex-item {
+                width: 110px;
+                height: 110px;
+            }
+
+            .hex-name {
+                font-size: 0.75rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .strength-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Character Strengths - Golden Mean</h1>
+
+        <div class="mode-toggle">
+            <button class="mode-btn active" onclick="switchMode('learn')">Learn & Practice</button>
+            <button class="mode-btn" onclick="switchMode('download')">Create Wallpaper</button>
+        </div>
+
+        <!-- Learn Mode -->
+        <div id="learn-mode" class="card">
+            <div id="selection-view">
+                <p class="instruction">✨ Select a character strength to explore</p>
+                <div class="hex-grid" id="hex-grid"></div>
+            </div>
+
+            <div id="detail-view" class="hidden">
+                <button class="back-btn" onclick="showSelection()">← Back to Selection</button>
+
+                <h2 class="strength-title" id="current-strength-name"></h2>
+
+                <div class="info-box green">
+                    <span class="label">Optimal Use:</span>
+                    <div class="content" id="current-strength-definition"></div>
+                </div>
+
+                <div class="reveal-section">
+                    <h3 style="font-size: 1.25rem; color: #1f2937; margin-bottom: 16px;">
+                        🤔 Can you guess the overuse and underuse?
+                    </h3>
+                    <p style="color: #6b7280; margin-bottom: 16px;">
+                        Think about what happens when this strength is used too much or too little...
+                    </p>
+                    <button class="btn btn-primary" id="show-answer-btn" onclick="showAnswer()">Show Answer</button>
+                </div>
+
+                <div id="answer-section" class="hidden">
+                    <div class="answer-section">
+                        <div class="info-box red">
+                            <span class="label">Overuse:</span>
+                            <div class="content" id="current-strength-overuse"></div>
+                        </div>
+
+                        <div class="info-box blue">
+                            <span class="label">Underuse:</span>
+                            <div class="content" id="current-strength-underuse"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Mode -->
+        <div id="download-mode" class="card hidden">
+            <h2 style="font-size: 1.5rem; font-weight: bold; color: #312e81; margin-bottom: 24px;">
+                Select Your Character Strengths
+            </h2>
+
+            <div class="download-info">
+                Choose the strengths you want to include in your mobile wallpaper.<br>
+                Selected strengths: <span class="count" id="selected-count">0</span>
+            </div>
+
+            <div class="strength-list" id="strength-list"></div>
+
+            <button class="btn btn-primary download-btn" id="download-btn" onclick="downloadWallpaper()" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                <span id="download-text">Download Wallpaper (0 strengths)</span>
+            </button>
+
+            <p id="select-message" style="text-align: center; color: #6b7280; font-size: 0.875rem; margin-top: 16px;">
+                Please select at least one strength to download
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>Adapted from Niemiec (2019)</p>
+        </div>
+    </div>
+
+    <script>
+        const strengthsData = [
+            { name: "Creativity", definition: "original, clever, imaginative, unique, and practical", overuse: "eccentric, odd, scattered", underuse: "conforming, unimaginative, plain or dull" },
+            { name: "Curiosity", definition: "\"explorer,\" intrigued, open, novelty seeker", overuse: "nosy, intrusive, self-serving", underuse: "bored, uninterested, apathetic, self-involved" },
+            { name: "Judgment/Critical Thinking", definition: "analytical, detail oriented, open-minded, rational, logical", overuse: "lost in the head, narrow-minded, cynical, rigid, indecisive", underuse: "illogical, naïve, unreflective, closed-minded" },
+            { name: "Love of Learning", definition: "information seeker, lifelong learner", overuse: "know-it-all, elitist, overwhelming", underuse: "smug; complacent with knowledge or growth; uninterested" },
+            { name: "Perspective", definition: "wise, wider view, integrator", overuse: "overbearing, arrogant, disconnected", underuse: "shallow, superficial, lacking confidence" },
+            { name: "Bravery", definition: "valorous, facing fears, confronting adversity", overuse: "risk taking, foolish, overconfident, unconcerned regarding others' reactions", underuse: "cowardly, unwilling to act, unwilling to be vulnerable" },
+            { name: "Perseverance", definition: "persistent, gritty, task completion", overuse: "stubborn, obsessive, fixated", underuse: "lazy, helpless, giving up" },
+            { name: "Honesty", definition: "truth sharer and seeker, sincere, without pretense, authentic", overuse: "self-righteous, rude, inconsiderate", underuse: "phony, dishonest, inauthentic, lacking integrity" },
+            { name: "Zest", definition: "energized, enthusiastic, happy, active", overuse: "hyperactive, overactive, annoying", underuse: "sloth-like, passive, sedentary, tired" },
+            { name: "Love", definition: "warm, genuine, connected, relational fulfillment", overuse: "emotional overkill; misaligned with others' needs; sugary sweet or touchy-feely", underuse: "isolating, cut off from others, afraid to care, not relating" },
+            { name: "Kindness", definition: "compassion, care, generous, nice and friendly", overuse: "intrusive, compassion fatigue, overly focused on others", underuse: "indifferent, selfish, uncaring to yourself, mean-spirited" },
+            { name: "Social Intelligence", definition: "empathic, tuned in then savvy, knowing what makes people tick", overuse: "over-analytical, self-deception, overly sensitive", underuse: "clueless, disconnected, naïveté, emotionally insensitive" },
+            { name: "Teamwork", definition: "collaborative, participative, loyal, socially responsible", overuse: "dependent; lost in groupthink, blind obedience, loss of individuality", underuse: "self-serving, individualistic, going it alone" },
+            { name: "Fairness", definition: "equality for all, care and justice-based, moral reflection", overuse: "detached, indecisive on justice issues, uncaring justice", underuse: "prejudice, partisanship, complacency" },
+            { name: "Leadership", definition: "positive influence, organizing a group, leading around a vision", overuse: "bossy, controlling, authoritarian", underuse: "follower, compliant and mousy, passive" },
+            { name: "Forgiveness", definition: "letting go of hurt when wronged, giver of second chances, mercy, accepting shortcomings", overuse: "permissive, doormat, too lenient or soft", underuse: "vengeful, merciless, easily triggered" },
+            { name: "Humility", definition: "modesty, clear view of oneself, focus attention on others, sees own limitations", overuse: "self-deprecation, limited self-image, subservient, withholding about oneself", underuse: "arrogant, braggadocio, self-focused, heavy ego needs" },
+            { name: "Prudence", definition: "wise caution, thinks before speaks, planful, goal-oriented, risk manager", overuse: "stuffy, prudish, rigid, passive", underuse: "thrill seeking, reckless, acting before thinking" },
+            { name: "Self-Regulation", definition: "self-management, mindful, disciplined", overuse: "constricted, inhibited, tightly wound, obsessive", underuse: "self-indulgent, emotional dysregulation, impulsive, undisciplined, unfocused" },
+            { name: "Appreciation of Beauty and Excellence", definition: "awe, wonder, elevation, admiring, seeing the life behind things, experiencing beauty and greatness", overuse: "snobbery, perfectionistic, intolerant, unrelenting standards", underuse: "oblivious, autopilot, mindlessness" },
+            { name: "Gratitude", definition: "thankful, connected, appreciating the good and positive", overuse: "ingratiation, contrived, profuse, repetitive", underuse: "unappreciative, entitled, self-absorbed" },
+            { name: "Hope", definition: "optimistic, positive expectations, confidence in goals and future", overuse: "unrealistic, Pollyanna-ish, head in the clouds, blind optimism", underuse: "negative, pessimistic, past oriented, despair" },
+            { name: "Humor", definition: "playful, funny, laughing with others, seeing the lighter side", overuse: "tasteless or offensive, giddy, socially inappropriate", underuse: "overly serious, stilted or stiff, flat affect" },
+            { name: "Spirituality", definition: "connecting with the sacred, finding purpose and meaning, expressing virtues", overuse: "proselytizing or preachy, fanatical, rigid values, holier than thou, narrow-minded", underuse: "lack of purpose or meaning in life, disconnected from what is sacred, unaware of core values, uncaring toward various forms of life" }
+        ];
+
+        let selectedStrengthIndex = null;
+        let showAnswerVisible = false;
+        let selectedStrengths = [];
+        let expandedStrength = null;
+
+        function initHexGrid() {
+            const hexGrid = document.getElementById('hex-grid');
+            hexGrid.innerHTML = '';
+
+            strengthsData.forEach((strength, index) => {
+                const hexItem = document.createElement('div');
+                hexItem.className = 'hex-item';
+                hexItem.onclick = () => selectStrength(index);
+
+                const hexShape = document.createElement('div');
+                hexShape.className = 'hex-shape';
+
+                const hexName = document.createElement('div');
+                hexName.className = 'hex-name';
+                hexName.textContent = strength.name;
+
+                hexShape.appendChild(hexName);
+                hexItem.appendChild(hexShape);
+                hexGrid.appendChild(hexItem);
+            });
+        }
+
+        function selectStrength(index) {
+            selectedStrengthIndex = index;
+            showAnswerVisible = false;
+            updateDetailView();
+            document.getElementById('selection-view').classList.add('hidden');
+            document.getElementById('detail-view').classList.remove('hidden');
+        }
+
+        function showSelection() {
+            document.getElementById('selection-view').classList.remove('hidden');
+            document.getElementById('detail-view').classList.add('hidden');
+            showAnswerVisible = false;
+        }
+
+        function updateDetailView() {
+            const strength = strengthsData[selectedStrengthIndex];
+            document.getElementById('current-strength-name').textContent = strength.name;
+            document.getElementById('current-strength-definition').textContent = strength.definition;
+            document.getElementById('current-strength-overuse').textContent = strength.overuse;
+            document.getElementById('current-strength-underuse').textContent = strength.underuse;
+
+            if (showAnswerVisible) {
+                document.getElementById('answer-section').classList.remove('hidden');
+                document.getElementById('show-answer-btn').classList.add('hidden');
+            } else {
+                document.getElementById('answer-section').classList.add('hidden');
+                document.getElementById('show-answer-btn').classList.remove('hidden');
+            }
+        }
+
+        function showAnswer() {
+            showAnswerVisible = true;
+            updateDetailView();
+        }
+
+        function switchMode(mode) {
+            const learnMode = document.getElementById('learn-mode');
+            const downloadMode = document.getElementById('download-mode');
+            const buttons = document.querySelectorAll('.mode-btn');
+
+            if (mode === 'learn') {
+                learnMode.classList.remove('hidden');
+                downloadMode.classList.add('hidden');
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+                showSelection();
+            } else {
+                learnMode.classList.add('hidden');
+                downloadMode.classList.remove('hidden');
+                buttons[0].classList.remove('active');
+                buttons[1].classList.add('active');
+                renderStrengthList();
+            }
+        }
+
+        function toggleStrengthSelection(index) {
+            const strength = strengthsData[index];
+            const existingIndex = selectedStrengths.findIndex(s => s.name === strength.name);
+
+            if (existingIndex !== -1) {
+                selectedStrengths.splice(existingIndex, 1);
+            } else {
+                selectedStrengths.push(strength);
+            }
+
+            updateDownloadUI();
+        }
+
+        function toggleExpanded(index) {
+            expandedStrength = expandedStrength === index ? null : index;
+            renderStrengthList();
+        }
+
+        function renderStrengthList() {
+            const list = document.getElementById('strength-list');
+            list.innerHTML = '';
+
+            strengthsData.forEach((strength, index) => {
+                const isSelected = selectedStrengths.find(s => s.name === strength.name);
+                const isExpanded = expandedStrength === index;
+
+                const item = document.createElement('div');
+                item.className = 'strength-item';
+
+                const header = document.createElement('div');
+                header.className = `strength-header ${isSelected ? 'selected' : ''}`;
+
+                const headerLeft = document.createElement('div');
+                headerLeft.className = 'strength-header-left';
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = !!isSelected;
+                checkbox.onchange = () => toggleStrengthSelection(index);
+
+                const name = document.createElement('span');
+                name.className = 'strength-name';
+                name.textContent = strength.name;
+
+                headerLeft.appendChild(checkbox);
+                headerLeft.appendChild(name);
+
+                const expandBtn = document.createElement('button');
+                expandBtn.className = 'expand-btn';
+                expandBtn.onclick = () => toggleExpanded(index);
+                expandBtn.innerHTML = isExpanded
+                    ? '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg>'
+                    : '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>';
+
+                header.appendChild(headerLeft);
+                header.appendChild(expandBtn);
+                item.appendChild(header);
+
+                if (isExpanded) {
+                    const details = document.createElement('div');
+                    details.className = 'strength-details';
+                    details.innerHTML = `
+                        <p><span style="font-weight: 600; color: #15803d;">Optimal:</span> ${strength.definition}</p>
+                        <p><span style="font-weight: 600; color: #dc2626;">Overuse:</span> ${strength.overuse}</p>
+                        <p><span style="font-weight: 600; color: #2563eb;">Underuse:</span> ${strength.underuse}</p>
+                    `;
+                    item.appendChild(details);
+                }
+
+                list.appendChild(item);
+            });
+        }
+
+        function updateDownloadUI() {
+            const count = selectedStrengths.length;
+            document.getElementById('selected-count').textContent = count;
+            document.getElementById('download-text').textContent = `Download Wallpaper (${count} strength${count !== 1 ? 's' : ''})`;
+
+            const downloadBtn = document.getElementById('download-btn');
+            const selectMessage = document.getElementById('select-message');
+
+            if (count > 0) {
+                downloadBtn.disabled = false;
+                selectMessage.style.display = 'none';
+            } else {
+                downloadBtn.disabled = true;
+                selectMessage.style.display = 'block';
+            }
+
+            renderStrengthList();
+        }
+
+        function wrapText(ctx, text, maxWidth) {
+            const words = text.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                const word = words[i];
+                const width = ctx.measureText(currentLine + ' ' + word).width;
+                if (width < maxWidth) {
+                    currentLine += ' ' + word;
+                } else {
+                    lines.push(currentLine);
+                    currentLine = word;
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        function downloadWallpaper() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 1080;
+            canvas.height = 1920;
+            const ctx = canvas.getContext('2d');
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#1e3a8a');
+            gradient.addColorStop(1, '#312e81');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 60px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('My Character Strengths', canvas.width / 2, 120);
+
+            let y = 220;
+            const padding = 60;
+            const maxWidth = canvas.width - padding * 2;
+            const lineHeight = 40;
+
+            selectedStrengths.forEach((strength, index) => {
+                ctx.fillStyle = '#fbbf24';
+                ctx.font = 'bold 46px sans-serif';
+                ctx.textAlign = 'left';
+
+                const nameLines = wrapText(ctx, strength.name, maxWidth);
+                nameLines.forEach(line => {
+                    ctx.fillText(line, padding, y);
+                    y += 50;
+                });
+
+                ctx.fillStyle = '#fca5a5';
+                ctx.font = '32px sans-serif';
+                const overuseText = `Overuse: ${strength.overuse}`;
+                const overuseLines = wrapText(ctx, overuseText, maxWidth);
+                overuseLines.forEach(line => {
+                    ctx.fillText(line, padding, y);
+                    y += lineHeight;
+                });
+
+                y += 10;
+
+                ctx.fillStyle = '#86efac';
+                const optimalText = `Optimal: ${strength.definition}`;
+                const optimalLines = wrapText(ctx, optimalText, maxWidth);
+                optimalLines.forEach(line => {
+                    ctx.fillText(line, padding, y);
+                    y += lineHeight;
+                });
+
+                y += 10;
+
+                ctx.fillStyle = '#93c5fd';
+                const underuseText = `Underuse: ${strength.underuse}`;
+                const underuseLines = wrapText(ctx, underuseText, maxWidth);
+                underuseLines.forEach(line => {
+                    ctx.fillText(line, padding, y);
+                    y += lineHeight;
+                });
+
+                y += 60;
+
+                if (y > canvas.height - 100) {
+                    return;
+                }
+            });
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '28px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Adapted from Niemiec (2019)', canvas.width / 2, canvas.height - 50);
+
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'character-strengths-wallpaper.png';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        // Initialize
+        initHexGrid();
+    </script>
+</body>
+</html>

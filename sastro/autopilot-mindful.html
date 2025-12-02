@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Strengths: Autopilot vs Mindful Use</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            color: #78350f;
+            margin-bottom: 16px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #92400e;
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+        }
+
+        /* Circular Grid Styles */
+        .circle-grid {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            margin: 40px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circle-item {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .circle-item:hover {
+            transform: scale(1.15);
+            z-index: 10;
+        }
+
+        .circle-shape {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s;
+        }
+
+        .circle-item:hover .circle-shape {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .circle-item.selected .circle-shape {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+        }
+
+        .circle-name {
+            color: white;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-align: center;
+            word-wrap: break-word;
+            line-height: 1.1;
+        }
+
+        /* Detail View */
+        .strength-detail {
+            margin-top: 32px;
+        }
+
+        .strength-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #78350f;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .example-box {
+            padding: 24px;
+            border-radius: 12px;
+            min-height: 200px;
+        }
+
+        .example-box.autopilot {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border: 3px solid #dc2626;
+        }
+
+        .example-box.mindful {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border: 3px solid #10b981;
+        }
+
+        .example-label {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .example-box.autopilot .example-label {
+            color: #991b1b;
+        }
+
+        .example-box.mindful .example-label {
+            color: #065f46;
+        }
+
+        .example-content {
+            color: #1f2937;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .instruction {
+            text-align: center;
+            color: #92400e;
+            margin-bottom: 24px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #fbbf24;
+            color: #78350f;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background-color: #f59e0b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .footer {
+            text-align: center;
+            color: #92400e;
+            font-size: 0.875rem;
+            margin-top: 40px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .circle-grid {
+                width: 400px;
+                height: 400px;
+            }
+
+            .circle-item {
+                width: 70px;
+                height: 70px;
+            }
+
+            .circle-name {
+                font-size: 0.65rem;
+            }
+
+            .comparison-container {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .strength-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .circle-grid {
+                width: 320px;
+                height: 320px;
+            }
+
+            .circle-item {
+                width: 60px;
+                height: 60px;
+            }
+
+            .circle-name {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Character Strengths in Action</h1>
+        <p class="subtitle">Discover the difference between autopilot and mindful use</p>
+
+        <div class="card">
+            <div id="selection-view">
+                <p class="instruction">🎯 Choose a strength to see real-life examples</p>
+                <div class="circle-grid" id="circle-grid"></div>
+            </div>
+
+            <div id="detail-view" class="hidden">
+                <button class="back-btn" onclick="showSelection()">← Back to Selection</button>
+                
+                <h2 class="strength-title" id="current-strength-name"></h2>
+
+                <div class="comparison-container">
+                    <div class="example-box autopilot">
+                        <div class="example-label">
+                            <span class="icon">😴</span>
+                            <span>On Autopilot</span>
+                        </div>
+                        <div class="example-content" id="autopilot-example"></div>
+                    </div>
+
+                    <div class="example-box mindful">
+                        <div class="example-label">
+                            <span class="icon">✨</span>
+                            <span>Mindful Use</span>
+                        </div>
+                        <div class="example-content" id="mindful-example"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Examples adapted from mindfulness-based strengths practice materials</p>
+        </div>
+    </div>
+
+    <script>
+        const strengthsExamples = [
+            {
+                name: "Creativity",
+                autopilot: "When you think to yourself \"I don't really feel like answering your question so I'll just say the first thing that comes to my mind.\"",
+                mindful: "\"As I think about your question, there are three different directions I could take to answer it. My answer is going to connect all three together and perhaps still be helpful to you!\""
+            },
+            {
+                name: "Curiosity",
+                autopilot: "\"That's interesting,\" you passively say to your friend's story about their day and then you move on to talk about your day.",
+                mindful: "\"That's interesting. Tell me more about what happened at work. What was most impactful about what your boss said to you?\""
+            },
+            {
+                name: "Judgment",
+                autopilot: "\"No, I don't think so,\" you say without giving your spouse's idea any time for reflection.",
+                mindful: "\"My first instinct is to say that that won't work, but let me think this through a bit more. I'll give it some thought, and I'll get back with you on that soon.\""
+            },
+            {
+                name: "Love of Learning",
+                autopilot: "When at the bookstore (or when buying online) you say to yourself, \"I'll get this one and this one, and this one looks interesting, I'll get that too.\"",
+                mindful: "When buying books you say, \"There are so many topics I want to dig into and learn about. I'll start with this one here and really absorb everything I can.\""
+            },
+            {
+                name: "Perspective",
+                autopilot: "\"It sounds like you have a cough. You should go to the doctor.\"",
+                mindful: "\"I've been hearing that cough of yours for a while now. You look a bit pale as well. I know there are a lot of sicknesses going around in our area. Do you think it might be good to get yourself checked out?\""
+            },
+            {
+                name: "Bravery",
+                autopilot: "When asked, \"Who wants to dive in?\"; without thinking you say, \"I will.\"",
+                mindful: "When asked, \"Who wants to dive in?\" you say, \"That looks a bit risky, but if no one else volunteers I'm happy to jump in as long as I have some support from others.\""
+            },
+            {
+                name: "Perseverance",
+                autopilot: "\"Yes, I'll get it done\" or \"I'm working on it\" as a response to someone asking you about a task that you are struggling with.",
+                mindful: "\"I'm struggling with this task, but I'm working hard on it. I can see several different problems with it, but I also see the steps I need to take. I will get this finished.\""
+            },
+            {
+                name: "Honesty",
+                autopilot: "In a situation where someone asks you what was said about them (and you know it was all negative comments), you say, \"I'm not exactly sure what they said. I don't recall it word-for-word.\"",
+                mindful: "\"They said some unkind words about you. Would you like me to say more about that? I can share with you the details of what I recall, but I know it might be hurtful for you to hear.\""
+            },
+            {
+                name: "Zest",
+                autopilot: "Showing a mind-body mismatch where you greet someone with a big \"hello, how are you doing!?\" but your body is tired and unexpressive.",
+                mindful: "Your body language, smile, and words are at the same level of enthusiasm and engagement as you greet someone with \"what's going on?\""
+            },
+            {
+                name: "Love",
+                autopilot: "A quick \"OK, love you\" as you leave home giving a kiss on your child or one's cheek.",
+                mindful: "\"I love you, ___,\" and you feel the sensation of your lips touch the cheek of your loved one. You deliberately hug the person for an extra few seconds while feeling the contact of the warm embrace."
+            },
+            {
+                name: "Kindness",
+                autopilot: "\"I'm so sorry for your loss,\" you quickly say to them.",
+                mindful: "\"Oh, I'm so sorry, Jon. I know how much your aunt meant to you. I am here for you. What can I help you with?\" Then take action in some way, such as bringing them dinner or writing them a thoughtful letter."
+            },
+            {
+                name: "Social Intelligence",
+                autopilot: "\"Hey, how are you doing today?\" or \"What's up with you?\" and then you don't listen for the response, and you start talking about what you wanted to say all along.",
+                mindful: "\"Hey, how are you doing? I was thinking about you the other day. How did everything go with that conversation with your boss earlier this week?\""
+            },
+            {
+                name: "Teamwork",
+                autopilot: "\"We're a good team,\" you passively say when someone comments on the good work done at your place of employment.",
+                mindful: "\"The project was a success because all five of us communicated and working together each day. Here's what each person did...\""
+            },
+            {
+                name: "Fairness",
+                autopilot: "\"OK, play fair. Be sure to share,\" you passively say to your child as they go outside to play.",
+                mindful: "\"When you share your toys with friends it makes them feel happy. It is a way to include others who might feel left out. That is a fair way to behave. What do you think about that idea?\""
+            },
+            {
+                name: "Leadership",
+                autopilot: "The manager who walks past their employees each day, and their one interaction is to make the comment, \"Good work, everyone.\"",
+                mindful: "The manager speaks with an employee directly about the person and their work: \"Ahmad, I want to let you know that I've noticed the quality time and effort you've been putting in on the projects these last 2 weeks. You've shown strong perseverance and teamwork.\""
+            },
+            {
+                name: "Forgiveness",
+                autopilot: "When someone apologizes to you for a wrongdoing and you quickly say, \"That's OK. It's OK\" and nothing else.",
+                mindful: "\"Thank you for apologizing. I was hurt by you when you did that to me. I felt quite upset. But I am moving on, and I want you to know that I forgive you. I forgive you for what you did and the pain you brought to me. I'm letting it go. I hope you will let it go, too.\""
+            },
+            {
+                name: "Humility",
+                autopilot: "Someone goes out of their way to give you a compliment, and you say, \"Oh, it's no big deal.\"",
+                mindful: "\"I appreciate your thoughtful observation. I simply tried to do my best on that project, and it was rewarding to complete it and do so with such a great group. Have you had an experience lately that was rewarding as well?\""
+            },
+            {
+                name: "Prudence",
+                autopilot: "\"Stick with the plan, just do what we always do.\"",
+                mindful: "\"I like the plan we have set up for our morning routine each week. Would it be OK with you if we stuck to that plan, and then, if we have some extra time, we can do the additional activity you mentioned?\""
+            },
+            {
+                name: "Self-Regulation",
+                autopilot: "\"I'm not feeling anything. I didn't feel anything when she said that to me.\"",
+                mindful: "\"I felt sad that she would actually say that to me. After all, we are friends. I also felt angry because she said it in front of the class. That was embarrassing.\""
+            },
+            {
+                name: "Appreciation of Beauty & Excellence",
+                autopilot: "\"Beautiful job on that drawing,\" the parent says to the child and then begins focusing on how they got three answers wrong on their math assignment.",
+                mindful: "\"Wow, look at that drawing you created. The blues and greens are so striking! And I see so many precise designs in your picture. This is quite beautiful. I'm enjoying admiring all the details here!\""
+            },
+            {
+                name: "Gratitude",
+                autopilot: "An almost imperceptible \"Great, thanks\" when in conversation with a work colleague.",
+                mindful: "\"Judy, I wanted to take a moment to tell you how much I appreciated all the effort you made on this project especially considering all that you have going on right now in your life. You really went the extra mile. I'm grateful to you for your hard work.\""
+            },
+            {
+                name: "Hope",
+                autopilot: "\"I hope you feel better\" and no explanation or further comments are offered.",
+                mindful: "\"I know you've been under a lot of stress these last couple weeks. I really hope you feel better and that you get some time for some exercise, as I know you love that. I am confident you'll make some time for yourself this week!\""
+            },
+            {
+                name: "Humor",
+                autopilot: "\"That's funny,\" you say to your friend with a fake smile and forced laugh at their story.",
+                mindful: "\"That's hysterical, I can't believe you said that to him!\" you say as you belly laugh at your friend's funny story, \"now I've got a great story to tell you...\""
+            },
+            {
+                name: "Spirituality",
+                autopilot: "Before eating dinner, you \"say grace\" (or offer another prayer or words of devotion) without even realizing you are saying the words or what their intended meaning is.",
+                mindful: "Before eating dinner, you turn to your heart and express appreciation for the food and the connection with the people you are with."
+            }
+        ];
+
+        let selectedStrengthIndex = null;
+
+        function calculateCirclePosition(index, total) {
+            const centerX = 300;
+            const centerY = 300;
+            const radius = 220;
+            const angle = (index / total) * 2 * Math.PI - Math.PI / 2;
+            
+            return {
+                left: centerX + radius * Math.cos(angle) - 50 + 'px',
+                top: centerY + radius * Math.sin(angle) - 50 + 'px'
+            };
+        }
+
+        function initCircleGrid() {
+            const circleGrid = document.getElementById('circle-grid');
+            circleGrid.innerHTML = '';
+
+            strengthsExamples.forEach((strength, index) => {
+                const circleItem = document.createElement('div');
+                circleItem.className = 'circle-item';
+                circleItem.onclick = () => selectStrength(index);
+
+                const position = calculateCirclePosition(index, strengthsExamples.length);
+                circleItem.style.left = position.left;
+                circleItem.style.top = position.top;
+
+                const circleShape = document.createElement('div');
+                circleShape.className = 'circle-shape';
+
+                const circleName = document.createElement('div');
+                circleName.className = 'circle-name';
+                circleName.textContent = strength.name;
+
+                circleShape.appendChild(circleName);
+                circleItem.appendChild(circleShape);
+                circleGrid.appendChild(circleItem);
+            });
+        }
+
+        function selectStrength(index) {
+            selectedStrengthIndex = index;
+            
+            // Update selected state in grid
+            document.querySelectorAll('.circle-item').forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+
+            updateDetailView();
+            document.getElementById('selection-view').classList.add('hidden');
+            document.getElementById('detail-view').classList.remove('hidden');
+        }
+
+        function showSelection() {
+            document.getElementById('selection-view').classList.remove('hidden');
+            document.getElementById('detail-view').classList.add('hidden');
+        }
+
+        function updateDetailView() {
+            const strength = strengthsExamples[selectedStrengthIndex];
+            document.getElementById('current-strength-name').textContent = strength.name;
+            document.getElementById('autopilot-example').textContent = strength.autopilot;
+            document.getElementById('mindful-example').textContent = strength.mindful;
+        }
+
+        // Initialize
+        initCircleGrid();
+    </script>
+</body>
+</html>

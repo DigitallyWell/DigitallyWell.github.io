@@ -3,156 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Character Strengths 360 - VIA Institute</title>
+    <title>Strengths 360 - SASTRO</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
             min-height: 100vh;
             padding: 2rem;
-            color: #333;
+            color: #fff;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 3rem; }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        h1 { color: #06b6d4; margin-bottom: 0.5rem; font-size: 2.5rem; }
+        .subtitle { text-align: center; color: #a5b4fc; margin-bottom: 2rem; font-size: 1.1rem; }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
             padding: 3rem;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .via-logo {
-            font-size: 1.2rem;
-            color: #667eea;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        h1 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .person-name {
-            margin-bottom: 2rem;
-        }
-
         .person-name input {
             width: 100%;
             padding: 1rem;
             font-size: 1.1rem;
-            border: 2px solid #e0e0e0;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
             border-radius: 10px;
             transition: border-color 0.3s;
+            margin-bottom: 2rem;
         }
-
-        .person-name input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
+        .person-name input:focus { outline: none; border-color: #06b6d4; }
+        .person-name input::placeholder { color: rgba(255, 255, 255, 0.5); }
         .instructions {
-            background: #f8f9ff;
+            background: rgba(6, 182, 212, 0.1);
             padding: 1.5rem;
             border-radius: 10px;
             margin-bottom: 2rem;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #06b6d4;
         }
-
-        .instructions p {
-            line-height: 1.6;
-            color: #555;
-        }
-
-        .counter {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        .virtue-section {
-            margin-bottom: 2.5rem;
-        }
-
+        .instructions p { line-height: 1.6; color: #e0e7ff; }
+        .counter { text-align: center; font-size: 1.2rem; margin-bottom: 2rem; color: #fbbf24; font-weight: 600; }
+        .virtue-section { margin-bottom: 2.5rem; }
         .virtue-header {
             display: flex;
             align-items: center;
             margin-bottom: 1rem;
             padding: 0.8rem;
             border-radius: 10px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
         }
-
-        .virtue-icon {
-            font-size: 1.8rem;
-            margin-right: 0.8rem;
-        }
-
-        .virtue-name {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #667eea;
-        }
-
-        .strengths-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-
+        .virtue-icon { font-size: 1.8rem; margin-right: 0.8rem; }
+        .virtue-name { font-size: 1.3rem; font-weight: 700; color: #fbbf24; }
+        .strengths-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
         .strength-card {
-            background: #fafafa;
-            border: 2px solid #e0e0e0;
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid rgba(245, 158, 11, 0.3);
             border-radius: 12px;
             padding: 1.2rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             position: relative;
         }
-
-        .strength-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-        }
-
+        .strength-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
         .strength-card.selected {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-color: #667eea;
-            color: white;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border-color: #06b6d4;
         }
-
-        .strength-card.selected .strength-description {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
+        .strength-card.selected .strength-description { color: rgba(255, 255, 255, 0.9); }
         .strength-rank {
             position: absolute;
             top: -10px;
             right: -10px;
-            background: #ffd700;
-            color: #333;
+            background: #fbbf24;
+            color: #1e3a8a;
             width: 35px;
             height: 35px;
             border-radius: 50%;
@@ -161,228 +97,119 @@
             justify-content: center;
             font-weight: bold;
             font-size: 1.1rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
-
-        .strength-card.selected .strength-rank {
-            display: flex;
-        }
-
-        .strength-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.8rem;
-        }
-
-        .strength-icon {
-            font-size: 2rem;
-            margin-right: 0.8rem;
-            flex-shrink: 0;
-        }
-
-        .strength-card.selected .strength-icon {
-            filter: brightness(0) invert(1);
-        }
-
-        .strength-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .strength-description {
-            font-size: 0.9rem;
-            color: #666;
-            line-height: 1.4;
-        }
-
-        .examples-section {
-            margin-top: 3rem;
-            display: none;
-        }
-
-        .examples-section.active {
-            display: block;
-        }
-
+        .strength-card.selected .strength-rank { display: flex; }
+        .strength-header { display: flex; align-items: center; margin-bottom: 0.8rem; }
+        .strength-icon { font-size: 2rem; margin-right: 0.8rem; flex-shrink: 0; }
+        .strength-name { font-weight: 600; font-size: 1.1rem; color: #fbbf24; }
+        .strength-card.selected .strength-name { color: white; }
+        .strength-description { font-size: 0.9rem; color: #c7d2fe; line-height: 1.4; }
+        .examples-section { margin-top: 3rem; display: none; }
+        .examples-section.active { display: block; }
         .example-item {
             margin-bottom: 1.5rem;
-            background: #f8f9ff;
+            background: rgba(6, 182, 212, 0.1);
             padding: 1.5rem;
             border-radius: 10px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #06b6d4;
         }
-
-        .example-item h3 {
-            color: #667eea;
-            margin-bottom: 0.8rem;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .example-item h3 span {
-            margin-left: 0.5rem;
-        }
-
+        .example-item h3 { color: #22d3ee; margin-bottom: 0.8rem; font-size: 1.1rem; display: flex; align-items: center; }
+        .example-item h3 span { margin-left: 0.5rem; }
         .example-item textarea {
             width: 100%;
             padding: 0.8rem;
-            border: 2px solid #e0e0e0;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
             border-radius: 8px;
             font-family: inherit;
             font-size: 1rem;
             resize: vertical;
             min-height: 80px;
-            transition: border-color 0.3s;
         }
-
-        .example-item textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
+        .example-item textarea::placeholder { color: rgba(255, 255, 255, 0.5); }
+        .example-item textarea:focus { outline: none; border-color: #06b6d4; }
+        .button-group { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
         button {
             padding: 1rem 2rem;
             font-size: 1.1rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 25px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
         }
-
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
             color: white;
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #e0e0e0;
-        }
-
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+        .btn-secondary:hover { background: rgba(245, 158, 11, 0.3); }
         .download-options {
             display: none;
             margin-top: 2rem;
             padding: 2rem;
-            background: #f8f9ff;
+            background: rgba(6, 182, 212, 0.1);
             border-radius: 12px;
             text-align: center;
+            border: 1px solid rgba(6, 182, 212, 0.3);
         }
-
-        .download-options.active {
-            display: block;
-        }
-
-        .download-options h3 {
-            color: #667eea;
-            margin-bottom: 1.5rem;
-        }
-
-        .download-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
+        .download-options.active { display: block; }
+        .download-options h3 { color: #22d3ee; margin-bottom: 1.5rem; }
+        .download-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
         .btn-download {
             padding: 0.8rem 1.5rem;
             font-size: 1rem;
-            background: white;
-            border: 2px solid #667eea;
-            color: #667eea;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #06b6d4;
+            color: #22d3ee;
+            border-radius: 25px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
         }
-
         .btn-download:hover {
-            background: #667eea;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
             color: white;
             transform: translateY(-2px);
         }
-
-        #resultsPreview {
-            display: none;
-            position: fixed;
-            left: -9999px;
-            top: -9999px;
-        }
-
+        #resultsPreview { display: none; position: fixed; left: -9999px; top: -9999px; }
         .results-card {
             background: white;
             padding: 3rem;
             width: 800px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-
         .results-header {
             text-align: center;
             margin-bottom: 2rem;
             padding-bottom: 1.5rem;
-            border-bottom: 3px solid #667eea;
+            border-bottom: 3px solid #06b6d4;
         }
-
-        .results-via-logo {
-            font-size: 1rem;
-            color: #667eea;
-            font-weight: 600;
+        .results-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
         }
-
-        .results-header h1 {
-            color: #667eea;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .results-meta {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
+        .results-header h1 { color: #06b6d4; font-size: 2rem; margin-bottom: 0.5rem; }
+        .results-meta { color: #666; font-size: 0.9rem; }
         .results-strength {
             margin-bottom: 2rem;
             padding: 1.5rem;
-            background: #f8f9ff;
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.05) 0%, rgba(49, 46, 129, 0.05) 100%);
             border-radius: 10px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #06b6d4;
         }
-
-        .results-strength-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.8rem;
-        }
-
+        .results-strength-header { display: flex; align-items: center; margin-bottom: 0.8rem; }
         .results-rank {
-            background: #667eea;
-            color: white;
+            background: #fbbf24;
+            color: #1e3a8a;
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -394,106 +221,58 @@
             margin-right: 1rem;
             flex-shrink: 0;
         }
-
-        .results-icon {
-            font-size: 1.8rem;
-            margin-right: 1rem;
-            flex-shrink: 0;
-        }
-
-        .results-strength-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .results-virtue {
-            font-size: 0.85rem;
-            color: #667eea;
-            font-weight: 600;
-            margin-top: 0.3rem;
-        }
-
-        .results-description {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 0.8rem;
-            font-style: italic;
-        }
-
-        .results-example {
-            color: #444;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .results-example strong {
-            color: #667eea;
-        }
-
+        .results-icon { font-size: 1.8rem; margin-right: 1rem; flex-shrink: 0; }
+        .results-strength-name { font-size: 1.3rem; font-weight: 600; color: #333; }
+        .results-virtue { font-size: 0.85rem; color: #06b6d4; font-weight: 600; margin-top: 0.3rem; }
+        .results-description { color: #666; font-size: 0.95rem; margin-bottom: 0.8rem; font-style: italic; }
+        .results-example { color: #444; font-size: 0.95rem; line-height: 1.6; }
+        .results-example strong { color: #06b6d4; }
         @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .strengths-grid {
-                grid-template-columns: 1fr;
-            }
+            .container { padding: 1.5rem; }
+            .card { padding: 1.5rem; }
+            h1 { font-size: 2rem; }
+            .strengths-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="via-logo">VIA CHARACTER.ORG</div>
+            <div class="logo">SASTRO</div>
             <h1>Character Strengths 360</h1>
+            <p class="subtitle">Identify the top 5 character strengths you see in someone</p>
         </div>
-        <p class="subtitle">Identify the top 5 character strengths you see in someone</p>
-
-        <div class="person-name">
-            <input type="text" id="personName" placeholder="Enter the person's name..." />
-        </div>
-
-        <div class="instructions">
-            <p><strong>Instructions:</strong> Select the 5 character strengths that most strongly describe this person. Click on each strength card to select it. The order you select them in will determine their ranking (1-5).</p>
-        </div>
-
-        <div class="counter" id="counter">Selected: 0 / 5</div>
-
-        <div id="strengthsContainer"></div>
-
-        <div class="examples-section" id="examplesSection">
-            <h2 style="color: #667eea; margin-bottom: 1.5rem;">Provide Examples</h2>
-            <p style="margin-bottom: 1.5rem; color: #666;">For each strength you selected, please provide a brief example of how you've seen this person display that strength:</p>
-            <div id="examplesContainer"></div>
-            
-            <div class="button-group">
-                <button class="btn-secondary" onclick="resetForm()">Reset</button>
-                <button class="btn-primary" onclick="submitForm()">Complete Assessment</button>
+        <div class="card">
+            <div class="person-name"><input type="text" id="personName" placeholder="Enter the person's name..." /></div>
+            <div class="instructions">
+                <p><strong>Instructions:</strong> Select the 5 character strengths that most strongly describe this person. The order you select them in will determine their ranking (1-5).</p>
             </div>
-
-            <div class="download-options" id="downloadOptions">
-                <h3>✨ Download Your Results</h3>
-                <div class="download-buttons">
-                    <button class="btn-download" onclick="downloadAsImage()">📷 Download as Image</button>
-                    <button class="btn-download" onclick="downloadAsPDF()">📄 Download as PDF</button>
+            <div class="counter" id="counter">Selected: 0 / 5</div>
+            <div id="strengthsContainer"></div>
+            <div class="examples-section" id="examplesSection">
+                <h2 style="color: #fbbf24; margin-bottom: 1.5rem;">Provide Examples</h2>
+                <p style="margin-bottom: 1.5rem; color: #c7d2fe;">For each strength you selected, please provide a brief example of how you've seen this person display that strength:</p>
+                <div id="examplesContainer"></div>
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="resetForm()">Reset</button>
+                    <button class="btn-primary" onclick="submitForm()">Complete Assessment</button>
+                </div>
+                <div class="download-options" id="downloadOptions">
+                    <h3>✨ Download Your Results</h3>
+                    <div class="download-buttons">
+                        <button class="btn-download" onclick="downloadAsImage()">📷 Download as Image</button>
+                        <button class="btn-download" onclick="downloadAsPDF()">📄 Download as PDF</button>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="button-group" id="nextButton" style="display: none;">
-            <button class="btn-primary" onclick="showExamples()">Next: Add Examples</button>
+            <div class="button-group" id="nextButton" style="display: none;">
+                <button class="btn-primary" onclick="showExamples()">Next: Add Examples</button>
+            </div>
         </div>
     </div>
-
     <div id="resultsPreview">
         <div class="results-card" id="resultsCard"></div>
     </div>
-
     <script>
         const virtues = {
             wisdom: {
@@ -557,67 +336,38 @@
                 ]
             }
         };
-
-        let selectedStrengths = [];
-        let allStrengths = [];
-
+        let selectedStrengths = [], allStrengths = [];
         function initializeStrengths() {
             let index = 0;
             for (const virtueKey in virtues) {
                 const virtue = virtues[virtueKey];
                 virtue.strengths.forEach(strength => {
-                    allStrengths.push({
-                        ...strength,
-                        virtue: virtue.name,
-                        virtueIcon: virtue.icon,
-                        index: index++
-                    });
+                    allStrengths.push({ ...strength, virtue: virtue.name, virtueIcon: virtue.icon, index: index++ });
                 });
             }
         }
-
         function renderStrengths() {
             const container = document.getElementById('strengthsContainer');
             container.innerHTML = '';
-
             for (const virtueKey in virtues) {
                 const virtue = virtues[virtueKey];
-                
                 const section = document.createElement('div');
                 section.className = 'virtue-section';
-                
-                section.innerHTML = `
-                    <div class="virtue-header">
-                        <div class="virtue-icon">${virtue.icon}</div>
-                        <div class="virtue-name">${virtue.name}</div>
-                    </div>
-                    <div class="strengths-grid" id="grid-${virtueKey}"></div>
-                `;
-                
+                section.innerHTML = `<div class="virtue-header"><div class="virtue-icon">${virtue.icon}</div><div class="virtue-name">${virtue.name}</div></div><div class="strengths-grid" id="grid-${virtueKey}"></div>`;
                 container.appendChild(section);
-                
                 const grid = document.getElementById(`grid-${virtueKey}`);
                 virtue.strengths.forEach(strength => {
                     const strengthObj = allStrengths.find(s => s.name === strength.name);
                     const card = document.createElement('div');
                     card.className = 'strength-card';
-                    card.innerHTML = `
-                        <div class="strength-rank"></div>
-                        <div class="strength-header">
-                            <div class="strength-icon">${strength.icon}</div>
-                            <div class="strength-name">${strength.name}</div>
-                        </div>
-                        <div class="strength-description">${strength.description}</div>
-                    `;
+                    card.innerHTML = `<div class="strength-rank"></div><div class="strength-header"><div class="strength-icon">${strength.icon}</div><div class="strength-name">${strength.name}</div></div><div class="strength-description">${strength.description}</div>`;
                     card.onclick = () => toggleStrength(strengthObj.index, card);
                     grid.appendChild(card);
                 });
             }
         }
-
         function toggleStrength(index, card) {
             const strengthIndex = selectedStrengths.indexOf(index);
-
             if (strengthIndex > -1) {
                 selectedStrengths.splice(strengthIndex, 1);
                 card.classList.remove('selected');
@@ -625,20 +375,13 @@
                 if (selectedStrengths.length < 5) {
                     selectedStrengths.push(index);
                     card.classList.add('selected');
-                } else {
-                    return;
-                }
+                } else return;
             }
-
             updateUI();
         }
-
         function updateUI() {
             document.getElementById('counter').textContent = `Selected: ${selectedStrengths.length} / 5`;
-
-            const cards = document.querySelectorAll('.strength-card');
-            cards.forEach((card, idx) => {
-                const strength = allStrengths[idx];
+            document.querySelectorAll('.strength-card').forEach((card, idx) => {
                 const rank = selectedStrengths.indexOf(idx);
                 if (rank > -1) {
                     card.classList.add('selected');
@@ -647,182 +390,92 @@
                     card.classList.remove('selected');
                 }
             });
-
-            const nextButton = document.getElementById('nextButton');
-            nextButton.style.display = selectedStrengths.length === 5 ? 'flex' : 'none';
+            document.getElementById('nextButton').style.display = selectedStrengths.length === 5 ? 'flex' : 'none';
         }
-
         function showExamples() {
             const container = document.getElementById('examplesContainer');
             container.innerHTML = '';
-
             selectedStrengths.forEach((strengthIndex, rank) => {
                 const strength = allStrengths[strengthIndex];
                 const div = document.createElement('div');
                 div.className = 'example-item';
-                div.innerHTML = `
-                    <h3>
-                        <span style="font-size: 1.5rem;">${strength.icon}</span>
-                        <span>#${rank + 1} - ${strength.name}</span>
-                    </h3>
-                    <textarea placeholder="Describe a specific example of how this person displays ${strength.name.toLowerCase()}..." 
-                              id="example-${strengthIndex}"></textarea>
-                `;
+                div.innerHTML = `<h3><span style="font-size: 1.5rem;">${strength.icon}</span><span>#${rank + 1} - ${strength.name}</span></h3><textarea placeholder="Describe a specific example of how this person displays ${strength.name.toLowerCase()}..." id="example-${strengthIndex}"></textarea>`;
                 container.appendChild(div);
             });
-
             document.getElementById('examplesSection').classList.add('active');
             document.getElementById('nextButton').style.display = 'none';
             document.getElementById('examplesSection').scrollIntoView({ behavior: 'smooth' });
         }
-
         function submitForm() {
             const personName = document.getElementById('personName').value.trim();
-            
-            if (!personName) {
-                alert('Please enter the person\'s name.');
-                return;
-            }
-
+            if (!personName) { alert('Please enter the person\'s name.'); return; }
             generateResultsPreview(personName);
             document.getElementById('downloadOptions').classList.add('active');
             document.getElementById('downloadOptions').scrollIntoView({ behavior: 'smooth' });
         }
-
         function generateResultsPreview(personName) {
             const resultsCard = document.getElementById('resultsCard');
-            let html = `
-                <div class="results-header">
-                    <div class="results-via-logo">VIA CHARACTER.ORG</div>
-                    <h1>Character Strengths 360</h1>
-                    <div class="results-meta">
-                        <div style="font-size: 1.2rem; font-weight: 600; color: #333; margin: 0.5rem 0;">${personName}</div>
-                        <div>${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                    </div>
-                </div>
-            `;
-
+            let html = `<div class="results-header"><div class="results-logo">SASTRO</div><h1>Character Strengths 360</h1><div class="results-meta"><div style="font-size: 1.2rem; font-weight: 600; color: #333; margin: 0.5rem 0;">${personName}</div><div>${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div></div></div>`;
             selectedStrengths.forEach((strengthIndex, rank) => {
                 const strength = allStrengths[strengthIndex];
                 const example = document.getElementById(`example-${strengthIndex}`).value.trim();
-                
-                html += `
-                    <div class="results-strength">
-                        <div class="results-strength-header">
-                            <div class="results-rank">${rank + 1}</div>
-                            <div class="results-icon">${strength.icon}</div>
-                            <div>
-                                <div class="results-strength-name">${strength.name}</div>
-                                <div class="results-virtue">${strength.virtue}</div>
-                            </div>
-                        </div>
-                        <div class="results-description">${strength.description}</div>
-                        ${example ? `<div class="results-example"><strong>Example:</strong> ${example}</div>` : ''}
-                    </div>
-                `;
+                html += `<div class="results-strength"><div class="results-strength-header"><div class="results-rank">${rank + 1}</div><div class="results-icon">${strength.icon}</div><div><div class="results-strength-name">${strength.name}</div><div class="results-virtue">${strength.virtue}</div></div></div><div class="results-description">${strength.description}</div>${example ? `<div class="results-example"><strong>Example:</strong> ${example}</div>` : ''}</div>`;
             });
-
             resultsCard.innerHTML = html;
         }
-
         async function downloadAsImage() {
             const resultsCard = document.getElementById('resultsCard');
             const preview = document.getElementById('resultsPreview');
-            
-            preview.style.left = '0';
-            preview.style.top = '0';
-            preview.style.display = 'block';
-
+            preview.style.left = '0'; preview.style.top = '0'; preview.style.display = 'block';
             try {
-                const canvas = await html2canvas(resultsCard, {
-                    scale: 2,
-                    backgroundColor: '#ffffff',
-                    logging: false,
-                    width: 800,
-                    windowWidth: 800
-                });
-
+                const canvas = await html2canvas(resultsCard, { scale: 2, backgroundColor: '#ffffff', logging: false, width: 800, windowWidth: 800 });
                 canvas.toBlob((blob) => {
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     const personName = document.getElementById('personName').value.trim();
                     a.href = url;
-                    a.download = `Character_Strengths_360_${personName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.png`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
+                    a.download = `SASTRO_Strengths_360_${personName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.png`;
+                    document.body.appendChild(a); a.click(); document.body.removeChild(a);
                     URL.revokeObjectURL(url);
-                    
-                    preview.style.left = '-9999px';
-                    preview.style.top = '-9999px';
-                    preview.style.display = 'none';
+                    preview.style.left = '-9999px'; preview.style.top = '-9999px'; preview.style.display = 'none';
                 });
             } catch (error) {
                 console.error('Error generating image:', error);
                 alert('There was an error generating the image. Please try again.');
-                preview.style.left = '-9999px';
-                preview.style.top = '-9999px';
-                preview.style.display = 'none';
+                preview.style.left = '-9999px'; preview.style.top = '-9999px'; preview.style.display = 'none';
             }
         }
-
         async function downloadAsPDF() {
             const resultsCard = document.getElementById('resultsCard');
             const preview = document.getElementById('resultsPreview');
-            
-            preview.style.left = '0';
-            preview.style.top = '0';
-            preview.style.display = 'block';
-
+            preview.style.left = '0'; preview.style.top = '0'; preview.style.display = 'block';
             try {
-                const canvas = await html2canvas(resultsCard, {
-                    scale: 2,
-                    backgroundColor: '#ffffff',
-                    logging: false,
-                    width: 800,
-                    windowWidth: 800
-                });
-
+                const canvas = await html2canvas(resultsCard, { scale: 2, backgroundColor: '#ffffff', logging: false, width: 800, windowWidth: 800 });
                 const imgData = canvas.toDataURL('image/png');
                 const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF({
-                    orientation: 'portrait',
-                    unit: 'mm',
-                    format: 'a4'
-                });
-
+                const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
                 const imgWidth = 210;
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                
                 pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                
                 const personName = document.getElementById('personName').value.trim();
-                pdf.save(`Character_Strengths_360_${personName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
-                
-                preview.style.left = '-9999px';
-                preview.style.top = '-9999px';
-                preview.style.display = 'none';
+                pdf.save(`SASTRO_Strengths_360_${personName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
+                preview.style.left = '-9999px'; preview.style.top = '-9999px'; preview.style.display = 'none';
             } catch (error) {
                 console.error('Error generating PDF:', error);
                 alert('There was an error generating the PDF. Please try again.');
-                preview.style.left = '-9999px';
-                preview.style.top = '-9999px';
-                preview.style.display = 'none';
+                preview.style.left = '-9999px'; preview.style.top = '-9999px'; preview.style.display = 'none';
             }
         }
-
         function resetForm() {
             if (confirm('Are you sure you want to reset the form? This will clear all your selections.')) {
                 selectedStrengths = [];
                 document.getElementById('personName').value = '';
                 document.getElementById('examplesSection').classList.remove('active');
                 document.getElementById('downloadOptions').classList.remove('active');
-                updateUI();
-                renderStrengths();
+                updateUI(); renderStrengths();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
-
         initializeStrengths();
         renderStrengths();
     </script>

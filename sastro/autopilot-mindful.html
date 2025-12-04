@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Character Strengths: Autopilot vs Mindful Use</title>
+    <title>Autopilot vs Mindful Use - SASTRO</title>
     <style>
         * {
             margin: 0;
@@ -13,9 +13,10 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
             min-height: 100vh;
             padding: 24px;
+            color: #ffffff;
         }
 
         .container {
@@ -23,28 +24,42 @@
             margin: 0 auto;
         }
 
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
         h1 {
             font-size: 2.5rem;
-            text-align: center;
-            color: #78350f;
+            color: #06b6d4;
             margin-bottom: 16px;
         }
 
         .subtitle {
-            text-align: center;
-            color: #92400e;
+            color: #a5b4fc;
             font-size: 1.1rem;
             margin-bottom: 32px;
         }
 
         .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
             padding: 32px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Circular Grid Styles */
         .circle-grid {
             position: relative;
             width: 600px;
@@ -68,6 +83,33 @@
             z-index: 10;
         }
 
+        /* Mobile grid layout */
+        @media (max-width: 768px) {
+            .circle-grid {
+                position: static;
+                width: 100%;
+                height: auto;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin: 20px 0;
+            }
+
+            .circle-item {
+                position: static;
+                width: 100%;
+                height: auto;
+                min-height: 100px;
+            }
+
+            .circle-shape {
+                border-radius: 12px;
+                clip-path: none;
+                height: 100%;
+                min-height: 100px;
+            }
+        }
+
         .circle-shape {
             width: 100%;
             height: 100%;
@@ -77,18 +119,18 @@
             align-items: center;
             justify-content: center;
             padding: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
             transition: all 0.3s;
         }
 
         .circle-item:hover .circle-shape {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 20px rgba(251, 191, 36, 0.6);
         }
 
         .circle-item.selected .circle-shape {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.6);
         }
 
         .circle-name {
@@ -100,7 +142,6 @@
             line-height: 1.1;
         }
 
-        /* Detail View */
         .strength-detail {
             margin-top: 32px;
         }
@@ -108,7 +149,7 @@
         .strength-title {
             font-size: 2rem;
             font-weight: bold;
-            color: #78350f;
+            color: #fbbf24;
             margin-bottom: 24px;
             text-align: center;
         }
@@ -124,16 +165,17 @@
             padding: 24px;
             border-radius: 12px;
             min-height: 200px;
+            border: 2px solid;
         }
 
         .example-box.autopilot {
-            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-            border: 3px solid #dc2626;
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
         }
 
         .example-box.mindful {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            border: 3px solid #10b981;
+            background: rgba(6, 182, 212, 0.1);
+            border-color: #06b6d4;
         }
 
         .example-label {
@@ -146,22 +188,22 @@
         }
 
         .example-box.autopilot .example-label {
-            color: #991b1b;
+            color: #fca5a5;
         }
 
         .example-box.mindful .example-label {
-            color: #065f46;
+            color: #22d3ee;
         }
 
         .example-content {
-            color: #1f2937;
+            color: #e0e7ff;
             line-height: 1.7;
             font-size: 1.05rem;
         }
 
         .instruction {
             text-align: center;
-            color: #92400e;
+            color: #a5b4fc;
             margin-bottom: 24px;
             font-size: 1.1rem;
             font-weight: 500;
@@ -171,9 +213,9 @@
             display: inline-block;
             margin-bottom: 20px;
             padding: 10px 20px;
-            background-color: #fbbf24;
-            color: #78350f;
-            border-radius: 8px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s;
             border: none;
@@ -182,14 +224,13 @@
         }
 
         .back-btn:hover {
-            background-color: #f59e0b;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 15px rgba(245, 158, 11, 0.4);
         }
 
         .footer {
             text-align: center;
-            color: #92400e;
+            color: #94a3b8;
             font-size: 0.875rem;
             margin-top: 40px;
         }
@@ -208,17 +249,31 @@
             }
 
             .circle-grid {
-                width: 400px;
-                height: 400px;
+                position: static;
+                width: 100%;
+                height: auto;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin: 20px 0;
             }
 
             .circle-item {
-                width: 70px;
-                height: 70px;
+                position: static;
+                width: 100%;
+                height: auto;
+                min-height: 100px;
+            }
+
+            .circle-shape {
+                border-radius: 12px;
+                clip-path: none;
+                height: 100%;
+                min-height: 100px;
             }
 
             .circle-name {
-                font-size: 0.65rem;
+                font-size: 0.85rem;
             }
 
             .comparison-container {
@@ -236,25 +291,22 @@
 
         @media (max-width: 480px) {
             .circle-grid {
-                width: 320px;
-                height: 320px;
-            }
-
-            .circle-item {
-                width: 60px;
-                height: 60px;
+                grid-template-columns: 1fr;
             }
 
             .circle-name {
-                font-size: 0.6rem;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Character Strengths in Action</h1>
-        <p class="subtitle">Discover the difference between autopilot and mindful use</p>
+        <div class="header">
+            <div class="logo">SASTRO</div>
+            <h1>Autopilot vs Mindful Use</h1>
+            <p class="subtitle">Discover the difference between autopilot and mindful use of your strengths</p>
+        </div>
 
         <div class="card">
             <div id="selection-view">
@@ -439,9 +491,12 @@
                 circleItem.className = 'circle-item';
                 circleItem.onclick = () => selectStrength(index);
 
-                const position = calculateCirclePosition(index, strengthsExamples.length);
-                circleItem.style.left = position.left;
-                circleItem.style.top = position.top;
+                // Only apply circular positioning on desktop
+                if (window.innerWidth > 768) {
+                    const position = calculateCirclePosition(index, strengthsExamples.length);
+                    circleItem.style.left = position.left;
+                    circleItem.style.top = position.top;
+                }
 
                 const circleShape = document.createElement('div');
                 circleShape.className = 'circle-shape';
@@ -456,10 +511,18 @@
             });
         }
 
+        // Re-render on window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                initCircleGrid();
+            }, 250);
+        });
+
         function selectStrength(index) {
             selectedStrengthIndex = index;
             
-            // Update selected state in grid
             document.querySelectorAll('.circle-item').forEach((item, i) => {
                 if (i === index) {
                     item.classList.add('selected');
@@ -485,7 +548,6 @@
             document.getElementById('mindful-example').textContent = strength.mindful;
         }
 
-        // Initialize
         initCircleGrid();
     </script>
 </body>

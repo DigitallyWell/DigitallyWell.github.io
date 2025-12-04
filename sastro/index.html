@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SASTRO - Becoming Self-Aware and Strong</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Header/Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .logo {
+            font-size: 5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 40px rgba(251, 191, 36, 0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            color: #06b6d4;
+            margin-bottom: 3rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            z-index: 1;
+            background: rgba(30, 58, 138, 0.6);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #e0e7ff;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(245, 158, 11, 0.6);
+        }
+
+        /* Toolkit Section */
+        .toolkit-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, #1e3a8a 0%, #4c1d95 100%);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #a5b4fc;
+            margin-bottom: 4rem;
+        }
+
+        .tools-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            border-color: #06b6d4;
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.3);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #fbbf24;
+        }
+
+        .tool-description {
+            color: #e0e7ff;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-button {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tool-button:hover {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f172a;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-title {
+            font-size: 1.5rem;
+            color: #fbbf24;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
+            }
+
+            .tagline {
+                font-size: 1.3rem;
+            }
+
+            .hero-content {
+                padding: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="stars" id="stars"></div>
+
+        <div class="hero-content">
+            <h1 class="logo">SASTRO</h1>
+            <p class="tagline">Becoming Self-Aware and Strong</p>
+
+            <p class="hero-text">
+                <strong>Mindfulness-Based Strengths Practice (MBSP)</strong> is an 8-week, evidence-based program that combines mindfulness and character strengths to help people flourish. It's the first to use mindfulness not only to manage stress, but to cultivate what's best in us - our signature strengths.
+            </p>
+
+            <p class="hero-text">
+                <strong>SASTRO</strong> is an adaptation of MBSP, especially for young people - teens and pre-teens. It provides bite-sized learning contents and a toolkit with an armour of tools to practice mindfulness and character strengths in our daily lives.
+            </p>
+
+            <p class="hero-text">
+                Though we know mindfulness and character strengths practice improves our wellbeing, it is challenging to make it part of our daily life, especially for young people. SASTRO is an evolving and experimental approach to embed these practices in our daily life.
+            </p>
+
+            <a href="#toolkit" class="cta-button">Explore Your Toolkit</a>
+        </div>
+    </div>
+
+    <!-- Toolkit Section -->
+    <div class="toolkit-section" id="toolkit">
+        <h2 class="section-title">Your Strength Toolkit</h2>
+        <p class="section-subtitle">Discover interactive tools to explore and practice your character strengths</p>
+
+        <div class="tools-grid">
+            <!-- Tool 1: Autopilot vs Mindful -->
+            <div class="tool-card">
+                <div class="tool-icon">😴 ✨</div>
+                <h3 class="tool-title">Autopilot vs Mindful Use</h3>
+                <p class="tool-description">
+                    See the difference between using your strengths on autopilot versus mindfully. Explore real-life examples across all 24 character strengths.
+                </p>
+                <a href="sastro-autopilot.html" class="tool-button" onclick="showTool(1); return false;">Launch Tool</a>
+            </div>
+
+            <!-- Tool 2: Golden Mean -->
+            <div class="tool-card">
+                <div class="tool-icon">⚖️ 💎</div>
+                <h3 class="tool-title">Golden Mean Explorer</h3>
+                <p class="tool-description">
+                    Learn about the optimal use of strengths and what happens when they're overused or underused. Create custom wallpapers with your insights.
+                </p>
+                <a href="sastro-golden-mean.html" class="tool-button" onclick="showTool(2); return false;">Launch Tool</a>
+            </div>
+
+            <!-- Tool 3: Strengths 360 -->
+            <div class="tool-card">
+                <div class="tool-icon">👥 🌟</div>
+                <h3 class="tool-title">Strengths 360</h3>
+                <p class="tool-description">
+                    Identify the top 5 character strengths you see in someone else. Provide examples and create a personalized strengths report to share.
+                </p>
+                <a href="sastro-strengths-360.html" class="tool-button" onclick="showTool(3); return false;">Launch Tool</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <h3 class="footer-title">SASTRO</h3>
+            <p>An experimental approach to mindfulness and character strengths practice</p>
+            <p style="margin-top: 1rem;">Based on Mindfulness-Based Strengths Practice (MBSP)</p>
+        </div>
+    </div>
+
+    <!-- Tool Pages (Hidden by default) -->
+    <div id="tool-container" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 1000; overflow-y: auto;">
+        <div style="position: sticky; top: 0; padding: 1rem; background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); z-index: 1001; border-bottom: 2px solid rgba(251, 191, 36, 0.3);">
+            <button onclick="closeTool()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; padding: 0.8rem 2rem; border-radius: 25px; font-weight: 600; cursor: pointer; font-size: 1rem; transition: all 0.3s;">
+                ← Back to SASTRO
+            </button>
+        </div>
+        <iframe id="tool-frame" src="" style="width: 100%; height: calc(100% - 80px); border: none;"></iframe>
+    </div>
+
+    <script>
+        // Generate random stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 100;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Smooth scroll for CTA button
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#toolkit').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Tool management
+        function showTool(toolNumber) {
+            const toolUrls = {
+                1: 'autopilot-mindful.html',
+                2: 'golden-mean.html',
+                3: 'strengths-360.html'
+            };
+
+            const container = document.getElementById('tool-container');
+            const frame = document.getElementById('tool-frame');
+            frame.src = toolUrls[toolNumber];
+            container.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTool() {
+            const container = document.getElementById('tool-container');
+            const frame = document.getElementById('tool-frame');
+            container.style.display = 'none';
+            frame.src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Initialize
+        createStars();
+    </script>
+</body>
+</html>

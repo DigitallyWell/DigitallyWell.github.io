@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Goal Setting - SASTRO</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #fff;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 3rem; }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        h1 { color: #06b6d4; margin-bottom: 0.5rem; font-size: 2.5rem; }
+        .subtitle { text-align: center; color: #a5b4fc; margin-bottom: 2rem; font-size: 1.1rem; }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+        .thrive-logo {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+        .thrive-tagline {
+            text-align: center;
+            color: #a5b4fc;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(245, 158, 11, 0.15);
+            border-radius: 10px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .step-letter {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #1e3a8a;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        .step-title { flex-grow: 1; }
+        .step-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 0.2rem;
+        }
+        .step-description {
+            font-size: 0.95rem;
+            color: #c7d2fe;
+        }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label {
+            display: block;
+            color: #22d3ee;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        .form-help {
+            display: block;
+            color: #a5b4fc;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+        .mindfulness-box {
+            background: rgba(6, 182, 212, 0.1);
+            border-left: 4px solid #06b6d4;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+        .mindfulness-box .label {
+            color: #22d3ee;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.95rem;
+        }
+        input[type="text"], input[type="date"], textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        textarea { resize: vertical; min-height: 80px; }
+        input::placeholder, textarea::placeholder { color: rgba(255, 255, 255, 0.5); }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #06b6d4;
+        }
+        .multi-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+        }
+        .multi-input-group input { flex: 1; }
+        .add-more-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(6, 182, 212, 0.2);
+            border: 1px solid #06b6d4;
+            color: #22d3ee;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .add-more-btn:hover { background: rgba(6, 182, 212, 0.3); }
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
+        }
+        .btn-secondary {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+            border: 1px solid #f59e0b;
+        }
+        .btn-secondary:hover { background: rgba(245, 158, 11, 0.3); }
+        .download-section {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            margin-top: 2rem;
+        }
+        .download-section.active { display: block; }
+        .download-section h3 {
+            color: #22d3ee;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        #pdfPreview { display: none; position: fixed; left: -9999px; top: -9999px; }
+        .pdf-card {
+            background: white;
+            padding: 3rem;
+            width: 800px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #333;
+        }
+        .pdf-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid #06b6d4;
+        }
+        .pdf-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+        .pdf-title {
+            color: #06b6d4;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .pdf-date { color: #666; font-size: 0.9rem; }
+        .pdf-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.05) 0%, rgba(49, 46, 129, 0.05) 100%);
+            border-radius: 10px;
+            border-left: 4px solid;
+            page-break-inside: avoid;
+        }
+        .pdf-section.target { border-color: #fbbf24; }
+        .pdf-section.harness { border-color: #f59e0b; }
+        .pdf-section.results { border-color: #06b6d4; }
+        .pdf-section.identify { border-color: #ef4444; }
+        .pdf-section.victory { border-color: #10b981; }
+        .pdf-section.evaluate { border-color: #8b5cf6; }
+        .pdf-section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .pdf-step-letter {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+        }
+        .pdf-section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+        }
+        .pdf-content {
+            color: #555;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        .pdf-content strong {
+            color: #06b6d4;
+            display: block;
+            margin-top: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+        .pdf-content ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .pdf-content li { margin-bottom: 0.3rem; }
+        .pdf-mindfulness {
+            background: rgba(6, 182, 212, 0.1);
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-top: 0.8rem;
+            border-left: 3px solid #06b6d4;
+        }
+        .pdf-mindfulness strong {
+            color: #0891b2;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            h1 { font-size: 2rem; }
+            .multi-input-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">SASTRO</div>
+            <h1>Mindful Goal Setting</h1>
+            <p class="subtitle">Transform your goals into reality with the THRIVE framework</p>
+        </div>
+
+        <div class="card">
+            <div class="thrive-logo">THRIVE</div>
+            <div class="thrive-tagline">Target • Harness • Results • Identify • Victory Plan • Evaluate & Evolve</div>
+        </div>
+
+        <!-- T - Target -->
+        <div class="card">
+            <div class="step-header">
+                <div class="step-letter">T</div>
+                <div class="step-title">
+                    <div class="step-name">TARGET</div>
+                    <div class="step-description">Set a clear, specific goal</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">What do you want to achieve?</label>
+                <textarea id="initial-goal" placeholder="Describe your goal in a few sentences..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Make it SMART</label>
+                <span class="form-help">Specific, Measurable, Achievable, Realistic, Time-based</span>
+                <textarea id="smart-goal" placeholder="Refine your goal to be specific, measurable, achievable, realistic, and time-based..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Target Completion Date</label>
+                <input type="date" id="completion-date">
+            </div>
+
+            <div class="mindfulness-box">
+                <span class="label">🧘 Mindful Reflection</span>
+                <textarea id="target-mindfulness" placeholder="What do you notice when you mindfully connect with this goal? Does it feel aligned with your values and authentic self?"></textarea>
+            </div>
+        </div>
+
+        <!-- H - Harness -->
+        <div class="card">
+            <div class="step-header">
+                <div class="step-letter">H</div>
+                <div class="step-title">
+                    <div class="step-name">HARNESS</div>
+                    <div class="step-description">Use your character strengths</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Which 3 character strengths will power your goal?</label>
+                <div id="strengths-container">
+                    <input type="text" placeholder="Strength #1" class="strength-input">
+                    <input type="text" placeholder="Strength #2" class="strength-input" style="margin-top: 0.5rem;">
+                    <input type="text" placeholder="Strength #3" class="strength-input" style="margin-top: 0.5rem;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">How will you use these strengths?</label>
+                <textarea id="strengths-how" placeholder="Describe how each strength will help you achieve your goal..."></textarea>
+            </div>
+
+            <div class="mindfulness-box">
+                <span class="label">🧘 Mindful Awareness of Strengths</span>
+                <textarea id="harness-mindfulness" placeholder="When you think about using these strengths, what do you notice in your body and mind? (sensations, emotions, energy)"></textarea>
+            </div>
+        </div>
+
+        <!-- R - Results -->
+        <div class="card">
+            <div class="step-header">
+                <div class="step-letter">R</div>
+                <div class="step-title">
+                    <div class="step-name">RESULTS</div>
+                    <div class="step-description">Visualize your outcome</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Mindful Visualization Practice</label>
+                <span class="form-help">Take 3 deep breaths. With full attention and all your senses, imagine achieving your goal...</span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">What will you SEE when you've achieved this?</label>
+                <textarea id="results-see" placeholder="Describe what you'll see..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">What will you HEAR?</label>
+                <textarea id="results-hear" placeholder="What sounds, voices, or words will you hear?"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">How will you FEEL?</label>
+                <textarea id="results-feel" placeholder="Describe the emotions and physical sensations in your body..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">What will be DIFFERENT in your life?</label>
+                <textarea id="results-different" placeholder="Describe what will change..."></textarea>
+            </div>
+        </div>
+
+        <!-- I - Identify -->
+        <div class="card">
+            <div class="step-header">
+                <div class="step-letter">I</div>
+                <div class="step-title">
+                    <div class="step-name">IDENTIFY</div>
+                    <div class="step-description">Anticipate obstacles</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">What internal obstacles might stop you?</label>
+                <span class="form-help">Mindfully notice your inner barriers - thoughts, feelings, habits, or actions you can control</span>
+                <div id="obstacles-container">
+                    <input type="text" placeholder="Obstacle #1" class="obstacle-input">
+                    <input type="text" placeholder="Obstacle #2" class="obstacle-input" style="margin-top: 0.5rem;">
+                    <input type="text" placeholder="Obstacle #3" class="obstacle-input" style="margin-top: 0.5rem;">
+                </div>
+                <button class="add-more-btn" onclick="addObstacle()" style="margin-top: 0.8rem;">+ Add Another Obstacle</button>
+            </div>
+
+            <div class="mindfulness-box">
+                <span class="label">🧘 Mindful Exploration of Obstacles</span>
+                <textarea id="identify-mindfulness" placeholder="Describe the physical sensations, emotions, and thoughts that arise when you imagine encountering these obstacles..."></textarea>
+            </div>
+        </div>
+
+        <!-- V - Victory Plan -->
+        <div class="card">
+            <div class="step-header">
+                <div class="step-letter">V</div>
+                <div class="step-title">
+                    <div class="step-name">VICTORY PLAN</div>
+                    <div class="step-description">Create if-then strategies</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">For each obstacle, create an IF...THEN plan</label>
+                <div id="plans-container">
+                    <div style="margin-bottom: 1rem;">
+                        <input type="text" placeholder="IF (obstacle happens)..." style="margin-bottom: 0.5rem;">
+                        <input type="text" placeholder="THEN I will (specific action)...">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <input type="text" placeholder="IF (obstacle happens)..." style="margin-bottom: 0.5rem;">
+                        <input type="text" placeholder="THEN I will (specific action)...">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <input type="text" placeholder="IF (obstacle happens)..." style="margin-bottom: 0.5rem;">
+                        <input type="text" placeholder="THEN I will (specific action)...">
+                    </div>
+                </div>
+                <button class="add-more-btn" onclick="addPlan()">+ Add Another Plan</button>
+            </div>
+
+            <div class="mindfulness-box">
+                <span class="label">🧘 Mindfulness Support for Victory Plans</span>
+                <span class="form-help" style="display: block; margin-bottom: 0.5rem;">How will mindfulness help you notice obstacles, pause before reacting, and execute your plans?</span>
+                <textarea id="victory-mindfulness" placeholder="Describe specific ways you'll use mindfulness (e.g., 'If I notice resistance, I'll take three mindful breaths and observe the thought without judgment...')"></textarea>
+            </div>
+        </div>
+
+        <!-- E - Evaluate -->
+        <div class="card">
+            <div class="step-header">
+                <div class="step-letter">E</div>
+                <div class="step-title">
+                    <div class="step-name">EVALUATE & EVOLVE</div>
+                    <div class="step-description">Track, adjust, and grow</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">What ONE small step will you take RIGHT NOW?</label>
+                <input type="text" id="first-step" placeholder="Your first small action...">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Action Steps</label>
+                <div id="action-steps-container">
+                    <input type="text" placeholder="Step 1" class="action-step-input">
+                    <input type="text" placeholder="Step 2" class="action-step-input" style="margin-top: 0.5rem;">
+                    <input type="text" placeholder="Step 3" class="action-step-input" style="margin-top: 0.5rem;">
+                </div>
+                <button class="add-more-btn" onclick="addActionStep()" style="margin-top: 0.8rem;">+ Add Another Step</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Mindful Check-in Practice</label>
+                <input type="text" id="checkin-frequency" placeholder="How often will you pause to mindfully notice your progress? (e.g., daily, weekly)">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Evaluation Dates</label>
+                <div class="multi-input-group">
+                    <input type="date" id="eval-date-1" placeholder="Checkpoint 1">
+                    <input type="date" id="eval-date-2" placeholder="Checkpoint 2">
+                    <input type="date" id="eval-date-3" placeholder="Final Review">
+                </div>
+            </div>
+
+            <div class="mindfulness-box">
+                <span class="label">🧘 Mindful Reflection Questions</span>
+                <textarea id="evaluate-mindfulness" placeholder="What insights have arisen through mindful awareness? What patterns do you notice in your behavior?"></textarea>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-secondary" onclick="resetForm()">Reset Form</button>
+            <button class="btn-primary" onclick="generatePDF()">Download as PDF</button>
+        </div>
+
+        <div class="download-section" id="downloadSection">
+            <h3>✨ Your THRIVE Goal Plan is Ready!</h3>
+            <p style="color: #c7d2fe; margin-bottom: 1rem;">Your goal-setting plan has been downloaded as a PDF.</p>
+        </div>
+    </div>
+
+    <div id="pdfPreview">
+        <div class="pdf-card" id="pdfCard"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        function addObstacle() {
+            const container = document.getElementById('obstacles-container');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'obstacle-input';
+            input.placeholder = 'Obstacle #' + (container.children.length + 1);
+            input.style.marginTop = '0.5rem';
+            container.appendChild(input);
+        }
+
+        function addPlan() {
+            const container = document.getElementById('plans-container');
+            const div = document.createElement('div');
+            div.style.marginBottom = '1rem';
+            div.innerHTML = '<input type="text" placeholder="IF (obstacle happens)..." style="margin-bottom: 0.5rem;"><input type="text" placeholder="THEN I will (specific action)...">';
+            container.appendChild(div);
+        }
+
+        function addActionStep() {
+            const container = document.getElementById('action-steps-container');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'action-step-input';
+            input.placeholder = 'Step ' + (container.children.length + 1);
+            input.style.marginTop = '0.5rem';
+            container.appendChild(input);
+        }
+
+        function resetForm() {
+            if (confirm('Are you sure you want to reset the form? All your entries will be cleared.')) {
+                document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+                document.getElementById('downloadSection').classList.remove('active');
+            }
+        }
+
+        async function generatePDF() {
+            const pdfCard = document.getElementById('pdfCard');
+            const preview = document.getElementById('pdfPreview');
+            
+            const data = {
+                smartGoal: document.getElementById('smart-goal').value,
+                completionDate: document.getElementById('completion-date').value,
+                targetMindfulness: document.getElementById('target-mindfulness').value,
+                strengths: Array.from(document.querySelectorAll('.strength-input')).map(el => el.value).filter(v => v),
+                strengthsHow: document.getElementById('strengths-how').value,
+                harnessMindfulness: document.getElementById('harness-mindfulness').value,
+                resultsSee: document.getElementById('results-see').value,
+                resultsHear: document.getElementById('results-hear').value,
+                resultsFeel: document.getElementById('results-feel').value,
+                resultsDifferent: document.getElementById('results-different').value,
+                obstacles: Array.from(document.querySelectorAll('.obstacle-input')).map(el => el.value).filter(v => v),
+                identifyMindfulness: document.getElementById('identify-mindfulness').value,
+                plans: Array.from(document.querySelectorAll('#plans-container > div')).map(div => ({
+                    if: div.children[0].value,
+                    then: div.children[1].value
+                })).filter(p => p.if || p.then),
+                victoryMindfulness: document.getElementById('victory-mindfulness').value,
+                firstStep: document.getElementById('first-step').value,
+                actionSteps: Array.from(document.querySelectorAll('.action-step-input')).map(el => el.value).filter(v => v),
+                checkinFrequency: document.getElementById('checkin-frequency').value,
+                evalDates: [
+                    document.getElementById('eval-date-1').value,
+                    document.getElementById('eval-date-2').value,
+                    document.getElementById('eval-date-3').value
+                ].filter(v => v),
+                evaluateMindfulness: document.getElementById('evaluate-mindfulness').value
+            };
+
+            let html = '<div class="pdf-header"><div class="pdf-logo">THRIVE</div><div class="pdf-title">Mindful Goal Setting Plan</div><div class="pdf-date">' + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) + '</div></div>';
+
+            if (data.smartGoal || data.completionDate || data.targetMindfulness) {
+                html += '<div class="pdf-section target"><div class="pdf-section-header"><div class="pdf-step-letter">T</div><div class="pdf-section-title">TARGET: Set Your Clear Goal</div></div><div class="pdf-content">';
+                if (data.smartGoal) html += '<strong>My THRIVE Goal:</strong>' + data.smartGoal;
+                if (data.completionDate) html += '<strong>Target Date:</strong>' + new Date(data.completionDate).toLocaleDateString();
+                if (data.targetMindfulness) html += '<div class="pdf-mindfulness"><strong>🧘 Mindful Reflection:</strong>' + data.targetMindfulness + '</div>';
+                html += '</div></div>';
+            }
+
+            if (data.strengths.length > 0 || data.strengthsHow || data.harnessMindfulness) {
+                html += '<div class="pdf-section harness"><div class="pdf-section-header"><div class="pdf-step-letter">H</div><div class="pdf-section-title">HARNESS: Use Your Character Strengths</div></div><div class="pdf-content">';
+                if (data.strengths.length > 0) html += '<strong>My Character Strengths:</strong><ul>' + data.strengths.map(s => '<li>' + s + '</li>').join('') + '</ul>';
+                if (data.strengthsHow) html += '<strong>How I\'ll Use Them:</strong>' + data.strengthsHow;
+                if (data.harnessMindfulness) html += '<div class="pdf-mindfulness"><strong>🧘 Mindful Awareness:</strong>' + data.harnessMindfulness + '</div>';
+                html += '</div></div>';
+            }
+
+            if (data.resultsSee || data.resultsHear || data.resultsFeel || data.resultsDifferent) {
+                html += '<div class="pdf-section results"><div class="pdf-section-header"><div class="pdf-step-letter">R</div><div class="pdf-section-title">RESULTS: Visualize Your Outcome</div></div><div class="pdf-content">';
+                if (data.resultsSee) html += '<strong>What I\'ll See:</strong>' + data.resultsSee;
+                if (data.resultsHear) html += '<strong>What I\'ll Hear:</strong>' + data.resultsHear;
+                if (data.resultsFeel) html += '<strong>How I\'ll Feel:</strong>' + data.resultsFeel;
+                if (data.resultsDifferent) html += '<strong>What Will Be Different:</strong>' + data.resultsDifferent;
+                html += '</div></div>';
+            }
+
+            if (data.obstacles.length > 0 || data.identifyMindfulness) {
+                html += '<div class="pdf-section identify"><div class="pdf-section-header"><div class="pdf-step-letter">I</div><div class="pdf-section-title">IDENTIFY: Anticipate Obstacles</div></div><div class="pdf-content">';
+                if (data.obstacles.length > 0) html += '<strong>Internal Obstacles:</strong><ul>' + data.obstacles.map(o => '<li>' + o + '</li>').join('') + '</ul>';
+                if (data.identifyMindfulness) html += '<div class="pdf-mindfulness"><strong>🧘 Mindful Exploration:</strong>' + data.identifyMindfulness + '</div>';
+                html += '</div></div>';
+            }
+
+            if (data.plans.length > 0 || data.victoryMindfulness) {
+                html += '<div class="pdf-section victory"><div class="pdf-section-header"><div class="pdf-step-letter">V</div><div class="pdf-section-title">VICTORY PLAN: IF-THEN Strategies</div></div><div class="pdf-content">';
+                if (data.plans.length > 0) html += '<strong>My IF-THEN Plans:</strong><ul>' + data.plans.map(p => '<li><strong>IF</strong> ' + p.if + '<br><strong>THEN</strong> ' + p.then + '</li>').join('') + '</ul>';
+                if (data.victoryMindfulness) html += '<div class="pdf-mindfulness"><strong>🧘 Mindfulness Support:</strong>' + data.victoryMindfulness + '</div>';
+                html += '</div></div>';
+            }
+
+            if (data.firstStep || data.actionSteps.length > 0 || data.checkinFrequency || data.evalDates.length > 0 || data.evaluateMindfulness) {
+                html += '<div class="pdf-section evaluate"><div class="pdf-section-header"><div class="pdf-step-letter">E</div><div class="pdf-section-title">EVALUATE & EVOLVE: Track & Adjust</div></div><div class="pdf-content">';
+                if (data.firstStep) html += '<strong>First Small Step:</strong>' + data.firstStep;
+                if (data.actionSteps.length > 0) html += '<strong>Action Steps:</strong><ul>' + data.actionSteps.map(s => '<li>' + s + '</li>').join('') + '</ul>';
+                if (data.checkinFrequency) html += '<strong>Mindful Check-in Practice:</strong>' + data.checkinFrequency;
+                if (data.evalDates.length > 0) html += '<strong>Evaluation Dates:</strong><ul>' + data.evalDates.map(d => '<li>' + new Date(d).toLocaleDateString() + '</li>').join('') + '</ul>';
+                if (data.evaluateMindfulness) html += '<div class="pdf-mindfulness"><strong>🧘 Mindful Reflection:</strong>' + data.evaluateMindfulness + '</div>';
+                html += '</div></div>';
+            }
+
+            pdfCard.innerHTML = html;
+            preview.style.left = '0';
+            preview.style.top = '0';
+            preview.style.display = 'block';
+
+            try {
+                const canvas = await html2canvas(pdfCard, {
+                    scale: 2,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    width: 800,
+                    windowWidth: 800
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                const imgWidth = 210;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= 297;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= 297;
+                }
+
+                pdf.save('THRIVE_Goal_Plan_' + new Date().toISOString().split('T')[0] + '.pdf');
+
+                document.getElementById('downloadSection').classList.add('active');
+                document.getElementById('downloadSection').scrollIntoView({ behavior: 'smooth' });
+
+                preview.style.left = '-9999px';
+                preview.style.top = '-9999px';
+                preview.style.display = 'none';
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('There was an error generating the PDF. Please try again.');
+                preview.style.left = '-9999px';
+                preview.style.top = '-9999px';
+                preview.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
